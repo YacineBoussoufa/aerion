@@ -259,9 +259,9 @@ export function GetDarkComposerBody():Promise<boolean>;
 
 export function GetDarkMailContent():Promise<boolean>;
 
-export function GetDefaultBcc(arg1:string):Promise<string>;
+export function GetDefaultAddress(arg1:string,arg2:string):Promise<string>;
 
-export function GetDefaultBccEnabled(arg1:string):Promise<boolean>;
+export function GetDefaultAddressEnabled(arg1:string,arg2:string):Promise<boolean>;
 
 export function GetDraft(arg1:string):Promise<smtp.ComposeMessage>;
 
@@ -569,9 +569,9 @@ export function SetDarkComposerBody(arg1:boolean):Promise<void>;
 
 export function SetDarkMailContent(arg1:boolean):Promise<void>;
 
-export function SetDefaultBcc(arg1:string,arg2:string):Promise<void>;
+export function SetDefaultAddress(arg1:string,arg2:string,arg3:string):Promise<void>;
 
-export function SetDefaultBccEnabled(arg1:string,arg2:boolean):Promise<void>;
+export function SetDefaultAddressEnabled(arg1:string,arg2:string,arg3:boolean):Promise<void>;
 
 export function SetDefaultIdentity(arg1:string,arg2:string):Promise<void>;
 

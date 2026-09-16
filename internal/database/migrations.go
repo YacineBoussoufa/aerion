@@ -1337,4 +1337,14 @@ var migrations = []Migration{
 			ALTER TABLE accounts ADD COLUMN imap_auth_mechanism TEXT NOT NULL DEFAULT 'auto';
 		`,
 	},
+	{
+		Version: 43,
+		SQL: `
+			-- Composer Reply-To support: single JSON-encoded smtp.Address
+			-- (same TEXT-holding-JSON convention as to_list/cc_list/bcc_list),
+			-- empty/NULL when the draft has no Reply-To set.
+
+			ALTER TABLE drafts ADD COLUMN reply_to TEXT;
+		`,
+	},
 }

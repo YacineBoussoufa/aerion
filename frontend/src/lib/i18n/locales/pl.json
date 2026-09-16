@@ -177,6 +177,7 @@
     "to": "Do",
     "cc": "DW",
     "bcc": "UDW",
+    "replyTo": "Odpowiedz do",
     "subject": "Temat",
     "from": "Od",
     "send": "Wyślij",
@@ -366,8 +367,12 @@
     "composerFormatRich": "Tekst sformatowany",
     "composerFormatPlain": "Zwykły tekst",
     "composerFormatDescription": "Nowe wiadomości będą domyślnie używać tego formatu. Możesz zmienić go dla każdej wiadomości.",
+    "defaultCc": "Domyślne DW",
+    "defaultCcHelp": "Automatycznie dodawane do pola DW podczas tworzenia wiadomości z włączonego konta.",
     "defaultBcc": "Domyślne UDW",
-    "defaultBccHelp": "Automatycznie dodawane do pola UDW podczas tworzenia wiadomości z włączonego konta. Wiele adresów oddziel przecinkami. Nadal możesz je usunąć dla każdej wiadomości."
+    "defaultBccHelp": "Automatycznie dodawane do pola UDW podczas tworzenia wiadomości z włączonego konta.",
+    "defaultReplyTo": "Domyślny adres odpowiedzi",
+    "defaultReplyToHelp": "Ustawia adres odpowiedzi dla wiadomości tworzonych z włączonego konta."
   },
   "settingsGeneral": {
     "display": "Wyświetlanie",

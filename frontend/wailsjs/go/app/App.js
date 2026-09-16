@@ -482,12 +482,12 @@ export function GetDarkMailContent() {
   return window['go']['app']['App']['GetDarkMailContent']();
 }
 
-export function GetDefaultBcc(arg1) {
-  return window['go']['app']['App']['GetDefaultBcc'](arg1);
+export function GetDefaultAddress(arg1, arg2) {
+  return window['go']['app']['App']['GetDefaultAddress'](arg1, arg2);
 }
 
-export function GetDefaultBccEnabled(arg1) {
-  return window['go']['app']['App']['GetDefaultBccEnabled'](arg1);
+export function GetDefaultAddressEnabled(arg1, arg2) {
+  return window['go']['app']['App']['GetDefaultAddressEnabled'](arg1, arg2);
 }
 
 export function GetDraft(arg1) {
@@ -1102,12 +1102,12 @@ export function SetDarkMailContent(arg1) {
   return window['go']['app']['App']['SetDarkMailContent'](arg1);
 }
 
-export function SetDefaultBcc(arg1, arg2) {
-  return window['go']['app']['App']['SetDefaultBcc'](arg1, arg2);
+export function SetDefaultAddress(arg1, arg2, arg3) {
+  return window['go']['app']['App']['SetDefaultAddress'](arg1, arg2, arg3);
 }
 
-export function SetDefaultBccEnabled(arg1, arg2) {
-  return window['go']['app']['App']['SetDefaultBccEnabled'](arg1, arg2);
+export function SetDefaultAddressEnabled(arg1, arg2, arg3) {
+  return window['go']['app']['App']['SetDefaultAddressEnabled'](arg1, arg2, arg3);
 }
 
 export function SetDefaultIdentity(arg1, arg2) {

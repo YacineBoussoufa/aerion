@@ -177,6 +177,7 @@
     "to": "Komu",
     "cc": "Kopie",
     "bcc": "Skrytá kopie",
+    "replyTo": "Odpovědět na",
     "subject": "Předmět",
     "from": "Od",
     "send": "Odeslat",
@@ -366,8 +367,12 @@
     "composerFormatRich": "Formátovaný text",
     "composerFormatPlain": "Prostý text",
     "composerFormatDescription": "Nové zprávy budou ve výchozím nastavení používat tento formát. Stále jej však lze změnit pro každou zprávu zvlášť.",
+    "defaultCc": "Výchozí kopie",
+    "defaultCcHelp": "Automaticky se přidá do pole kopie při psaní zprávy z povoleného účtu.",
     "defaultBcc": "Výchozí skrytá kopie",
-    "defaultBccHelp": "Automaticky se přidá do pole skryté kopie při psaní zprávy z povoleného účtu. Více adres oddělte čárkami. Lze je však pro každou zprávu zvlášť odebrat."
+    "defaultBccHelp": "Automaticky se přidá do pole skryté kopie při psaní zprávy z povoleného účtu.",
+    "defaultReplyTo": "Výchozí adresa pro odpovědi",
+    "defaultReplyToHelp": "Nastaví adresu pro odpovědi u zpráv psaných z povoleného účtu."
   },
   "settingsGeneral": {
     "display": "Zobrazení",

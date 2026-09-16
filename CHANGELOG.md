@@ -7,7 +7,10 @@
 - Fixed post delete ghost messages on message list
 - New app icon with full hicolor size set + scalable SVG - [#395](https://github.com/hkdb/aerion/issues/395) - [#99](https://github.com/hkdb/aerion/issues/99) - (Special thanks to @gianlucamazza)
 - Fixed thread sender and preview in message list - [#169](https://github.com/hkdb/aerion/issues/169)
+- Added merge identical messages in thread - [#222](https://github.com/hkdb/aerion/issues/222)
+- Added default CC
 - Added default BCC - [#341](https://github.com/hkdb/aerion/issues/341)
+- Added default reply-to - [#404](https://github.com/hkdb/aerion/issues/404)
 
 
 **v0.3.3 - 08-06-2026**

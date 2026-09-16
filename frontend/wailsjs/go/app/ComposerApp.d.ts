@@ -26,7 +26,7 @@ export function GetComposeMode():Promise<app.ComposeMode>;
 
 export function GetDarkComposerBody():Promise<boolean>;
 
-export function GetDefaultBcc(arg1:string):Promise<string>;
+export function GetDefaultAddress(arg1:string,arg2:string):Promise<string>;
 
 export function GetDraft():Promise<smtp.ComposeMessage>;
 

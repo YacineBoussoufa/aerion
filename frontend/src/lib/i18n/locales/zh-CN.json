@@ -177,6 +177,7 @@
     "to": "收件人",
     "cc": "抄送",
     "bcc": "密送",
+    "replyTo": "回复至",
     "subject": "主题",
     "from": "发件人",
     "send": "发送",
@@ -366,8 +367,12 @@
     "composerFormatRich": "富文本",
     "composerFormatPlain": "纯文本",
     "composerFormatDescription": "新邮件将默认使用此格式。您仍可在撰写时切换。",
+    "defaultCc": "默认抄送",
+    "defaultCcHelp": "从已启用的账户撰写邮件时自动添加到抄送栏。",
     "defaultBcc": "默认密送",
-    "defaultBccHelp": "从已启用的账户撰写邮件时自动添加到密送栏。多个地址请用逗号分隔。您仍可在每封邮件中移除。"
+    "defaultBccHelp": "从已启用的账户撰写邮件时自动添加到密送栏。",
+    "defaultReplyTo": "默认回复地址",
+    "defaultReplyToHelp": "为从已启用的账户撰写的邮件设置回复地址。"
   },
   "settingsGeneral": {
     "display": "显示",

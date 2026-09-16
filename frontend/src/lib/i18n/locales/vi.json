@@ -177,6 +177,7 @@
     "to": "Tới",
     "cc": "Cc",
     "bcc": "Bcc",
+    "replyTo": "Trả lời tới",
     "subject": "Tiêu đề",
     "from": "Từ",
     "send": "Gửi",
@@ -366,8 +367,12 @@
     "composerFormatRich": "Văn bản có định dạng",
     "composerFormatPlain": "Văn bản thuần",
     "composerFormatDescription": "Thư mới sẽ dùng định dạng này theo mặc định. Bạn vẫn có thể thay đổi từng thư.",
+    "defaultCc": "Cc mặc định",
+    "defaultCcHelp": "Tự động thêm vào trường Cc khi soạn thư từ tài khoản đã bật.",
     "defaultBcc": "Bcc mặc định",
-    "defaultBccHelp": "Tự động thêm vào trường Bcc khi soạn thư từ tài khoản đã bật. Phân tách nhiều địa chỉ bằng dấu phẩy. Bạn vẫn có thể xóa ở từng thư."
+    "defaultBccHelp": "Tự động thêm vào trường Bcc khi soạn thư từ tài khoản đã bật.",
+    "defaultReplyTo": "Địa chỉ trả lời mặc định",
+    "defaultReplyToHelp": "Đặt địa chỉ trả lời cho thư soạn từ tài khoản đã bật."
   },
   "settingsGeneral": {
     "display": "Hiển thị",

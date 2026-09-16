@@ -177,6 +177,7 @@
     "to": "An",
     "cc": "Cc",
     "bcc": "Bcc",
+    "replyTo": "Antwort an",
     "subject": "Betreff",
     "from": "Von",
     "send": "Senden",
@@ -366,8 +367,12 @@
     "composerFormatRich": "Formatierter Text",
     "composerFormatPlain": "Nur-Text",
     "composerFormatDescription": "Neue Nachrichten verwenden dieses Format standardmäßig. Du kannst es weiterhin pro Nachricht ändern.",
+    "defaultCc": "Standard-Cc",
+    "defaultCcHelp": "Wird beim Verfassen aus einem aktivierten Konto automatisch ins Cc-Feld eingetragen.",
     "defaultBcc": "Standard-Bcc",
-    "defaultBccHelp": "Wird beim Verfassen aus einem aktivierten Konto automatisch ins Bcc-Feld eingetragen. Mehrere Adressen mit Kommas trennen. Du kannst sie weiterhin pro Nachricht entfernen."
+    "defaultBccHelp": "Wird beim Verfassen aus einem aktivierten Konto automatisch ins Bcc-Feld eingetragen.",
+    "defaultReplyTo": "Standard-Antwortadresse",
+    "defaultReplyToHelp": "Setzt die Antwortadresse für Nachrichten, die aus einem aktivierten Konto verfasst werden."
   },
   "settingsGeneral": {
     "display": "Anzeige",

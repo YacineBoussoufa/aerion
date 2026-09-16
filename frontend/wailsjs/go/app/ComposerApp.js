@@ -34,8 +34,8 @@ export function GetDarkComposerBody() {
   return window['go']['app']['ComposerApp']['GetDarkComposerBody']();
 }
 
-export function GetDefaultBcc(arg1) {
-  return window['go']['app']['ComposerApp']['GetDefaultBcc'](arg1);
+export function GetDefaultAddress(arg1, arg2) {
+  return window['go']['app']['ComposerApp']['GetDefaultAddress'](arg1, arg2);
 }
 
 export function GetDraft() {

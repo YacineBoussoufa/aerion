@@ -177,6 +177,7 @@
     "to": "Til",
     "cc": "Kopi",
     "bcc": "Blindkopi",
+    "replyTo": "Svaradresse",
     "subject": "Emne",
     "from": "Fra",
     "send": "Send",
@@ -366,8 +367,12 @@
     "composerFormatRich": "Rik tekst",
     "composerFormatPlain": "Standardtekst",
     "composerFormatDescription": "Nye meldinger vil bruke det angitte formatet som standard. Du kan fortsatt veksle mellom dem når du skriver nye meldinger.",
+    "defaultCc": "Standard kopi",
+    "defaultCcHelp": "Legges automatisk til i kopifeltet når du skriver meldinger fra en aktivert konto.",
     "defaultBcc": "Standard blindkopi",
-    "defaultBccHelp": "Legges automatisk til i blindkopifeltet når du skriver meldinger fra en aktivert konto. Skill flere adresser med komma. Du kan fortsatt fjerne dem per melding."
+    "defaultBccHelp": "Legges automatisk til i blindkopifeltet når du skriver meldinger fra en aktivert konto.",
+    "defaultReplyTo": "Standard svaradresse",
+    "defaultReplyToHelp": "Angir svaradressen for meldinger som skrives fra en aktivert konto."
   },
   "settingsGeneral": {
     "display": "Visning",

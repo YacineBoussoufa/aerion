@@ -177,6 +177,7 @@
     "to": "A",
     "cc": "Cc",
     "bcc": "Ccn",
+    "replyTo": "Rispondi a",
     "subject": "Oggetto",
     "from": "Da",
     "send": "Invia",
@@ -366,8 +367,12 @@
     "composerFormatRich": "Testo formattato Rich",
     "composerFormatPlain": "Testo semplice",
     "composerFormatDescription": "I nuovi messaggi utilizzeranno questo formato per impostazione predefinita. Puoi comunque cambiare il formato per ogni messaggio.",
+    "defaultCc": "Cc predefinito",
+    "defaultCcHelp": "Aggiunto automaticamente al campo Cc quando componi da un account abilitato.",
     "defaultBcc": "Ccn predefinito",
-    "defaultBccHelp": "Aggiunto automaticamente al campo Ccn quando componi da un account abilitato. Separa più indirizzi con virgole. Puoi comunque rimuoverli per ogni messaggio."
+    "defaultBccHelp": "Aggiunto automaticamente al campo Ccn quando componi da un account abilitato.",
+    "defaultReplyTo": "Indirizzo di risposta predefinito",
+    "defaultReplyToHelp": "Imposta l'indirizzo di risposta per i messaggi composti da un account abilitato."
   },
   "settingsGeneral": {
     "display": "Schermo",

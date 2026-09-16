@@ -26,6 +26,7 @@ type Draft struct {
 	ToList   string `json:"toList"`
 	CcList   string `json:"ccList"`
 	BccList  string `json:"bccList"`
+	ReplyTo  string `json:"replyTo,omitempty"` // JSON-encoded smtp.Address, "" when unset
 	Subject  string `json:"subject"`
 	BodyHTML string `json:"bodyHtml"`
 	BodyText string `json:"bodyText"`

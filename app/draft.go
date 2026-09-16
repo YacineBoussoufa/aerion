@@ -187,6 +187,7 @@ func (ops *draftOps) saveDraftToDB(accountID string, localDraft *draft.Draft, ms
 		localDraft.ToList = addressListToJSON(msg.To)
 		localDraft.CcList = addressListToJSON(msg.Cc)
 		localDraft.BccList = addressListToJSON(msg.Bcc)
+		localDraft.ReplyTo = replyToToJSON(msg.ReplyTo)
 		localDraft.Subject = msg.Subject
 		localDraft.BodyHTML = enc.bodyHTML
 		localDraft.BodyText = enc.bodyText
@@ -213,6 +214,7 @@ func (ops *draftOps) saveDraftToDB(accountID string, localDraft *draft.Draft, ms
 		ToList:           addressListToJSON(msg.To),
 		CcList:           addressListToJSON(msg.Cc),
 		BccList:          addressListToJSON(msg.Bcc),
+		ReplyTo:          replyToToJSON(msg.ReplyTo),
 		Subject:          msg.Subject,
 		BodyHTML:         enc.bodyHTML,
 		BodyText:         enc.bodyText,
@@ -503,6 +505,7 @@ func (ops *draftOps) toComposeMessage(d *draft.Draft) *smtp.ComposeMessage {
 		To:                parseAddressList(d.ToList),
 		Cc:                parseAddressList(d.CcList),
 		Bcc:               parseAddressList(d.BccList),
+		ReplyTo:           parseReplyTo(d.ReplyTo),
 		Subject:           d.Subject,
 		HTMLBody:          bodyHTML,
 		TextBody:          bodyText,

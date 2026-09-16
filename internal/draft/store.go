@@ -38,18 +38,18 @@ func (s *Store) Create(d *Draft) error {
 
 	query := `
 		INSERT INTO drafts (
-			id, account_id, to_list, cc_list, bcc_list, subject,
+			id, account_id, to_list, cc_list, bcc_list, reply_to, subject,
 			body_html, body_text, in_reply_to_id, reply_type, references_list,
 			identity_id, sign_message, encrypted, encrypted_body,
 			pgp_sign_message, pgp_encrypted, pgp_encrypted_body,
 			attachments_data,
 			sync_status, imap_uid, folder_id,
 			last_sync_attempt, sync_error, created_at, updated_at
-		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 	`
 
 	_, err := s.db.Exec(query,
-		d.ID, d.AccountID, d.ToList, d.CcList, d.BccList, d.Subject,
+		d.ID, d.AccountID, d.ToList, d.CcList, d.BccList, nullString(d.ReplyTo), d.Subject,
 		d.BodyHTML, d.BodyText, nullString(d.InReplyToID), nullString(d.ReplyType), nullString(d.ReferencesList),
 		nullString(d.IdentityID), d.SignMessage, d.Encrypted, nullBytes(d.EncryptedBody),
 		d.PGPSignMessage, d.PGPEncrypted, nullBytes(d.PGPEncryptedBody),
@@ -75,7 +75,7 @@ func (s *Store) Update(d *Draft) error {
 
 	query := `
 		UPDATE drafts SET
-			to_list = ?, cc_list = ?, bcc_list = ?, subject = ?,
+			to_list = ?, cc_list = ?, bcc_list = ?, reply_to = ?, subject = ?,
 			body_html = ?, body_text = ?, in_reply_to_id = ?, reply_type = ?,
 			references_list = ?, identity_id = ?, sign_message = ?,
 			encrypted = ?, encrypted_body = ?,
@@ -87,7 +87,7 @@ func (s *Store) Update(d *Draft) error {
 	`
 
 	_, err := s.db.Exec(query,
-		d.ToList, d.CcList, d.BccList, d.Subject,
+		d.ToList, d.CcList, d.BccList, nullString(d.ReplyTo), d.Subject,
 		d.BodyHTML, d.BodyText, nullString(d.InReplyToID), nullString(d.ReplyType),
 		nullString(d.ReferencesList), nullString(d.IdentityID), d.SignMessage,
 		d.Encrypted, nullBytes(d.EncryptedBody),
@@ -112,7 +112,7 @@ func (s *Store) Update(d *Draft) error {
 // Get returns a draft by ID
 func (s *Store) Get(id string) (*Draft, error) {
 	query := `
-		SELECT id, account_id, to_list, cc_list, bcc_list, subject,
+		SELECT id, account_id, to_list, cc_list, bcc_list, reply_to, subject,
 			body_html, body_text, in_reply_to_id, reply_type, references_list,
 			identity_id, sign_message, encrypted, encrypted_body,
 			pgp_sign_message, pgp_encrypted, pgp_encrypted_body,
@@ -124,13 +124,13 @@ func (s *Store) Get(id string) (*Draft, error) {
 	`
 
 	d := &Draft{}
-	var inReplyToID, replyType, referencesList, identityID, folderID, syncError sql.NullString
+	var replyTo, inReplyToID, replyType, referencesList, identityID, folderID, syncError sql.NullString
 	var imapUID sql.NullInt64
 	var lastSyncAttempt sql.NullTime
 	var encryptedBody, pgpEncryptedBody, attachmentsData []byte
 
 	err := s.db.QueryRow(query, id).Scan(
-		&d.ID, &d.AccountID, &d.ToList, &d.CcList, &d.BccList, &d.Subject,
+		&d.ID, &d.AccountID, &d.ToList, &d.CcList, &d.BccList, &replyTo, &d.Subject,
 		&d.BodyHTML, &d.BodyText, &inReplyToID, &replyType, &referencesList,
 		&identityID, &d.SignMessage, &d.Encrypted, &encryptedBody,
 		&d.PGPSignMessage, &d.PGPEncrypted, &pgpEncryptedBody,
@@ -145,6 +145,7 @@ func (s *Store) Get(id string) (*Draft, error) {
 		return nil, fmt.Errorf("failed to get draft: %w", err)
 	}
 
+	d.ReplyTo = replyTo.String
 	d.InReplyToID = inReplyToID.String
 	d.ReplyType = replyType.String
 	d.ReferencesList = referencesList.String
@@ -167,7 +168,7 @@ func (s *Store) Get(id string) (*Draft, error) {
 // GetByIMAPUID returns a draft by its IMAP UID and folder ID
 func (s *Store) GetByIMAPUID(folderID string, imapUID uint32) (*Draft, error) {
 	query := `
-		SELECT id, account_id, to_list, cc_list, bcc_list, subject,
+		SELECT id, account_id, to_list, cc_list, bcc_list, reply_to, subject,
 			body_html, body_text, in_reply_to_id, reply_type, references_list,
 			identity_id, sign_message, encrypted, encrypted_body,
 			pgp_sign_message, pgp_encrypted, pgp_encrypted_body,
@@ -179,13 +180,13 @@ func (s *Store) GetByIMAPUID(folderID string, imapUID uint32) (*Draft, error) {
 	`
 
 	d := &Draft{}
-	var inReplyToID, replyType, referencesList, identityID, folderIDVal, syncError sql.NullString
+	var replyTo, inReplyToID, replyType, referencesList, identityID, folderIDVal, syncError sql.NullString
 	var imapUIDVal sql.NullInt64
 	var lastSyncAttempt sql.NullTime
 	var encryptedBody, pgpEncryptedBody, attachmentsData []byte
 
 	err := s.db.QueryRow(query, folderID, imapUID).Scan(
-		&d.ID, &d.AccountID, &d.ToList, &d.CcList, &d.BccList, &d.Subject,
+		&d.ID, &d.AccountID, &d.ToList, &d.CcList, &d.BccList, &replyTo, &d.Subject,
 		&d.BodyHTML, &d.BodyText, &inReplyToID, &replyType, &referencesList,
 		&identityID, &d.SignMessage, &d.Encrypted, &encryptedBody,
 		&d.PGPSignMessage, &d.PGPEncrypted, &pgpEncryptedBody,
@@ -200,6 +201,7 @@ func (s *Store) GetByIMAPUID(folderID string, imapUID uint32) (*Draft, error) {
 		return nil, fmt.Errorf("failed to get draft by IMAP UID: %w", err)
 	}
 
+	d.ReplyTo = replyTo.String
 	d.InReplyToID = inReplyToID.String
 	d.ReplyType = replyType.String
 	d.ReferencesList = referencesList.String
@@ -233,7 +235,7 @@ func (s *Store) Delete(id string) error {
 // ListByAccount returns all drafts for an account
 func (s *Store) ListByAccount(accountID string) ([]*Draft, error) {
 	query := `
-		SELECT id, account_id, to_list, cc_list, bcc_list, subject,
+		SELECT id, account_id, to_list, cc_list, bcc_list, reply_to, subject,
 			body_html, body_text, in_reply_to_id, reply_type, references_list,
 			identity_id, sign_message, encrypted, encrypted_body,
 			pgp_sign_message, pgp_encrypted, pgp_encrypted_body,
@@ -257,7 +259,7 @@ func (s *Store) ListByAccount(accountID string) ([]*Draft, error) {
 // ListPendingSync returns all drafts that need to be synced to IMAP
 func (s *Store) ListPendingSync(accountID string) ([]*Draft, error) {
 	query := `
-		SELECT id, account_id, to_list, cc_list, bcc_list, subject,
+		SELECT id, account_id, to_list, cc_list, bcc_list, reply_to, subject,
 			body_html, body_text, in_reply_to_id, reply_type, references_list,
 			identity_id, sign_message, encrypted, encrypted_body,
 			pgp_sign_message, pgp_encrypted, pgp_encrypted_body,
@@ -321,13 +323,13 @@ func (s *Store) scanDrafts(rows *sql.Rows) ([]*Draft, error) {
 
 	for rows.Next() {
 		d := &Draft{}
-		var inReplyToID, replyType, referencesList, identityID, folderID, syncError sql.NullString
+		var replyTo, inReplyToID, replyType, referencesList, identityID, folderID, syncError sql.NullString
 		var imapUID sql.NullInt64
 		var lastSyncAttempt sql.NullTime
 		var encryptedBody, pgpEncryptedBody, attachmentsData []byte
 
 		err := rows.Scan(
-			&d.ID, &d.AccountID, &d.ToList, &d.CcList, &d.BccList, &d.Subject,
+			&d.ID, &d.AccountID, &d.ToList, &d.CcList, &d.BccList, &replyTo, &d.Subject,
 			&d.BodyHTML, &d.BodyText, &inReplyToID, &replyType, &referencesList,
 			&identityID, &d.SignMessage, &d.Encrypted, &encryptedBody,
 			&d.PGPSignMessage, &d.PGPEncrypted, &pgpEncryptedBody,
@@ -339,6 +341,7 @@ func (s *Store) scanDrafts(rows *sql.Rows) ([]*Draft, error) {
 			return nil, fmt.Errorf("failed to scan draft: %w", err)
 		}
 
+		d.ReplyTo = replyTo.String
 		d.InReplyToID = inReplyToID.String
 		d.ReplyType = replyType.String
 		d.ReferencesList = referencesList.String

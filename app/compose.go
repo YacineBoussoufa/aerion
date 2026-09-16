@@ -1120,6 +1120,28 @@ func addressListToJSON(addrs []smtp.Address) string {
 	return string(data)
 }
 
+// replyToToJSON converts a draft's single Reply-To address to its stored
+// JSON form ("" when unset)
+func replyToToJSON(addr *smtp.Address) string {
+	if addr == nil || addr.Address == "" {
+		return ""
+	}
+	data, _ := json.Marshal(addr)
+	return string(data)
+}
+
+// parseReplyTo restores a draft's stored Reply-To JSON (nil when unset)
+func parseReplyTo(s string) *smtp.Address {
+	if s == "" {
+		return nil
+	}
+	var addr smtp.Address
+	if err := json.Unmarshal([]byte(s), &addr); err != nil || addr.Address == "" {
+		return nil
+	}
+	return &addr
+}
+
 // detectContentType returns the MIME type for a file based on extension
 func detectContentType(filename string) string {
 	ext := strings.ToLower(filepath.Ext(filename))

@@ -177,6 +177,7 @@
     "to": "To",
     "cc": "Cc",
     "bcc": "Bcc",
+    "replyTo": "Reply-To",
     "subject": "Subject",
     "from": "From",
     "send": "Send",
@@ -366,8 +367,12 @@
     "composerFormatRich": "Rich text",
     "composerFormatPlain": "Plain text",
     "composerFormatDescription": "New messages will use this format by default. You can still switch per message.",
+    "defaultCc": "Default CC",
+    "defaultCcHelp": "Automatically added to the CC field when composing from an enabled account.",
     "defaultBcc": "Default BCC",
-    "defaultBccHelp": "Automatically added to the BCC field when composing from an enabled account. Separate multiple addresses with commas. You can still remove them per message."
+    "defaultBccHelp": "Automatically added to the BCC field when composing from an enabled account.",
+    "defaultReplyTo": "Default Reply-To",
+    "defaultReplyToHelp": "Sets the Reply-To address for messages composed from an enabled account."
   },
   "settingsGeneral": {
     "display": "Display",

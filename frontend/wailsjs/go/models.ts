@@ -1689,6 +1689,7 @@ export namespace draft {
 	    toList: string;
 	    ccList: string;
 	    bccList: string;
+	    replyTo?: string;
 	    subject: string;
 	    bodyHtml: string;
 	    bodyText: string;
@@ -1722,6 +1723,7 @@ export namespace draft {
 	        this.toList = source["toList"];
 	        this.ccList = source["ccList"];
 	        this.bccList = source["bccList"];
+	        this.replyTo = source["replyTo"];
 	        this.subject = source["subject"];
 	        this.bodyHtml = source["bodyHtml"];
 	        this.bodyText = source["bodyText"];

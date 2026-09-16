@@ -331,24 +331,25 @@ func (a *App) SetComposerFormat(format string) error {
 	return a.settingsStore.SetComposerFormat(format)
 }
 
-// GetDefaultBcc returns the account's default BCC list ("" when disabled)
-func (a *App) GetDefaultBcc(accountID string) (string, error) {
-	return a.settingsStore.GetDefaultBcc(accountID)
+// GetDefaultAddress returns the account's default address list for the given
+// kind ("bcc" or "replyto"); "" when the toggle is disabled
+func (a *App) GetDefaultAddress(kind, accountID string) (string, error) {
+	return a.settingsStore.GetDefaultAddress(kind, accountID)
 }
 
-// SetDefaultBcc stores the account's default BCC list
-func (a *App) SetDefaultBcc(accountID, value string) error {
-	return a.settingsStore.SetDefaultBcc(accountID, value)
+// SetDefaultAddress stores the account's default address list for the kind
+func (a *App) SetDefaultAddress(kind, accountID, value string) error {
+	return a.settingsStore.SetDefaultAddress(kind, accountID, value)
 }
 
-// GetDefaultBccEnabled returns the account's default BCC toggle
-func (a *App) GetDefaultBccEnabled(accountID string) (bool, error) {
-	return a.settingsStore.GetDefaultBccEnabled(accountID)
+// GetDefaultAddressEnabled returns the account's default address toggle
+func (a *App) GetDefaultAddressEnabled(kind, accountID string) (bool, error) {
+	return a.settingsStore.GetDefaultAddressEnabled(kind, accountID)
 }
 
-// SetDefaultBccEnabled writes the account's default BCC toggle
-func (a *App) SetDefaultBccEnabled(accountID string, enabled bool) error {
-	return a.settingsStore.SetDefaultBccEnabled(accountID, enabled)
+// SetDefaultAddressEnabled writes the account's default address toggle
+func (a *App) SetDefaultAddressEnabled(kind, accountID string, enabled bool) error {
+	return a.settingsStore.SetDefaultAddressEnabled(kind, accountID, enabled)
 }
 
 // GetNativeTitleBar returns whether the native OS title bar is enabled

@@ -177,6 +177,7 @@
     "to": "收件人",
     "cc": "副本",
     "bcc": "密件副本",
+    "replyTo": "回覆至",
     "subject": "主旨",
     "from": "寄件人",
     "send": "傳送",
@@ -366,8 +367,12 @@
     "composerFormatRich": "富文字",
     "composerFormatPlain": "純文字",
     "composerFormatDescription": "新郵件將預設使用此格式。您仍可在撰寫時切換。",
+    "defaultCc": "預設副本",
+    "defaultCcHelp": "從已啟用的帳號撰寫郵件時自動加入副本欄位。",
     "defaultBcc": "預設密件副本",
-    "defaultBccHelp": "從已啟用的帳號撰寫郵件時自動加入密件副本欄位。多個地址請以逗號分隔。您仍可在每封郵件中移除。"
+    "defaultBccHelp": "從已啟用的帳號撰寫郵件時自動加入密件副本欄位。",
+    "defaultReplyTo": "預設回覆地址",
+    "defaultReplyToHelp": "為從已啟用的帳號撰寫的郵件設定回覆地址。"
   },
   "settingsGeneral": {
     "display": "顯示",
