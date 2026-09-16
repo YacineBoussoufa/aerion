@@ -10,6 +10,7 @@
 - Added merge identical messages in thread - [#222](https://github.com/hkdb/aerion/issues/222)
 - Relabeled spellcheck dictionary English to English (US)
 - Added spellcheck dictionary English (UK) - [#417](https://github.com/hkdb/aerion/issues/417)
+- Added dot and glow dot optional accents for unread messages
 - Fixed post delete ghost messages on message list
 - New app icon with full hicolor size set + scalable SVG - [#395](https://github.com/hkdb/aerion/issues/395) (Special thanks to @gianlucamazza) - [#99](https://github.com/hkdb/aerion/issues/99) 
 - Fixed thread sender and preview in message list - [#169](https://github.com/hkdb/aerion/issues/169)

@@ -69,6 +69,16 @@ func (a *App) GetAccentBarUnread() (bool, error) {
 	return a.settingsStore.GetAccentBarUnread()
 }
 
+// GetAccentUnreadStyle returns the unread accent style ("dot", "glowdot" or "bar")
+func (a *App) GetAccentUnreadStyle() (string, error) {
+	return a.settingsStore.GetAccentUnreadStyle()
+}
+
+// SetAccentUnreadStyle sets the unread accent style
+func (a *App) SetAccentUnreadStyle(style string) error {
+	return a.settingsStore.SetAccentUnreadStyle(style)
+}
+
 // SetAccentBarUnread enables or disables the accent bar for unread messages
 func (a *App) SetAccentBarUnread(enabled bool) error {
 	return a.settingsStore.SetAccentBarUnread(enabled)

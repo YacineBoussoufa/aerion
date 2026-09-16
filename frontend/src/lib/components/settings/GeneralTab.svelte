@@ -27,6 +27,7 @@
     onAutostartChange: (value: boolean) => void
     onLanguageChange: (value: string) => void
     accentBarUnread: boolean
+    accentUnreadStyle: string
     showMessageListCircles: boolean
     showMessageListProfilePics: boolean
     alwaysShowMessageCheckbox: boolean
@@ -54,6 +55,7 @@
     onAutostartChange,
     onLanguageChange,
     accentBarUnread = $bindable(),
+    accentUnreadStyle = $bindable(),
     showMessageListCircles = $bindable(),
     showMessageListProfilePics = $bindable(),
     alwaysShowMessageCheckbox = $bindable(),
@@ -373,6 +375,20 @@
           bind:checked={accentBarUnread}
         />
       </div>
+      {#if accentBarUnread}
+        <Select.Root value={accentUnreadStyle} onValueChange={(v) => { if (v) accentUnreadStyle = v }}>
+          <Select.Trigger>
+            <Select.Value>
+              {accentUnreadStyle === 'bar' ? $_('settingsGeneral.accentStyleBar') : accentUnreadStyle === 'glowdot' ? $_('settingsGeneral.accentStyleGlowDot') : $_('settingsGeneral.accentStyleDot')}
+            </Select.Value>
+          </Select.Trigger>
+          <Select.Content>
+            <Select.Item value="dot" label={$_('settingsGeneral.accentStyleDot')} />
+            <Select.Item value="glowdot" label={$_('settingsGeneral.accentStyleGlowDot')} />
+            <Select.Item value="bar" label={$_('settingsGeneral.accentStyleBar')} />
+          </Select.Content>
+        </Select.Root>
+      {/if}
     </div>
 
     <div class="space-y-2">

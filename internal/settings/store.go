@@ -35,6 +35,7 @@ const (
 	KeyDarkMailContent            = "dark_mail_content"
 	KeyDarkComposerBody           = "dark_composer_body"
 	KeyAccentBarUnread            = "accent_bar_unread"
+	KeyAccentUnreadStyle          = "accent_unread_style" // "dot" | "glowdot" | "bar"; applies when accent_bar_unread is on
 	KeyShowMessageListCircles     = "show_message_list_circles"
 	KeyShowMessageListProfilePics = "show_message_list_profile_pics" // render contact photos in the message-list avatar slot (default off)
 	KeyAlwaysShowMessageCheckbox  = "always_show_message_checkbox"   // reserve a fixed checkbox column instead of the hover/swipe slide-reveal (default off)
@@ -370,6 +371,36 @@ func (s *Store) SetAccentBarUnread(enabled bool) error {
 		v = "true"
 	}
 	return s.Set(KeyAccentBarUnread, v)
+}
+
+// GetAccentUnreadStyle returns the unread accent style ("dot", "glowdot" or
+// "bar"). When never set, users who already had the accent enabled keep the
+// legacy full bar; everyone else defaults to the dot.
+func (s *Store) GetAccentUnreadStyle() (string, error) {
+	value, err := s.Get(KeyAccentUnreadStyle)
+	if err != nil {
+		return "dot", err
+	}
+	if value != "" {
+		return value, nil
+	}
+	enabled, err := s.GetAccentBarUnread()
+	if err != nil {
+		return "dot", err
+	}
+	if enabled {
+		return "bar", nil
+	}
+	return "dot", nil
+}
+
+// SetAccentUnreadStyle sets the unread accent style
+func (s *Store) SetAccentUnreadStyle(style string) error {
+	switch style {
+	case "dot", "glowdot", "bar":
+		return s.Set(KeyAccentUnreadStyle, style)
+	}
+	return fmt.Errorf("invalid accent unread style: %s (must be 'dot', 'glowdot' or 'bar')", style)
 }
 
 // GetShowMessageListCircles returns whether colored sender circles

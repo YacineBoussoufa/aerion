@@ -20,7 +20,7 @@
   import MessageContextMenu from '$lib/components/common/MessageContextMenu.svelte'
   import Avatar from '$lib/components/kit/Avatar.svelte'
   import { toasts } from '$lib/stores/toast'
-  import { getAccentBarUnread, getShowMessageListCircles, getShowMessageListProfilePics, getAlwaysShowMessageCheckbox } from '$lib/stores/settings.svelte'
+  import { getAccentBarUnread, getAccentUnreadStyle, getShowMessageListCircles, getShowMessageListProfilePics, getAlwaysShowMessageCheckbox } from '$lib/stores/settings.svelte'
   import { getLayoutMode } from '$lib/stores/layout.svelte'
   import { contactPhotos } from '$lib/stores/contactPhotos.svelte'
 
@@ -462,7 +462,7 @@
     draggable={getLayoutMode() !== 'narrow'}
     class="group relative w-full flex items-start touch-pan-y {densityClasses.row[density]} text-left border-b border-border transition-colors duration-300 cursor-pointer outline-none {selected
       ? 'bg-primary/20'
-      : 'hover:bg-muted/50'} {getAccentBarUnread() && hasUnread ? 'border-l-2 border-l-primary' : ''} {swipeAnim === 'select' ? 'swipe-select-anim' : ''} {swipeAnim === 'delete' ? 'swipe-delete-anim' : ''}"
+      : 'hover:bg-muted/50'} {getAccentBarUnread() && hasUnread && getAccentUnreadStyle() === 'bar' ? 'border-l-2 border-l-primary' : ''} {swipeAnim === 'select' ? 'swipe-select-anim' : ''} {swipeAnim === 'delete' ? 'swipe-delete-anim' : ''}"
     onclick={handleRowClick}
     onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect() }}}
     ondragstart={handleDragStart}
@@ -474,6 +474,15 @@
     role="button"
     tabindex="0"
   >
+    {#if getAccentBarUnread() && hasUnread && getAccentUnreadStyle() !== 'bar'}
+      <!-- Unread accent, dot variants: absolute so it never shifts row content
+           (unlike the 2px bar border); glow via inline style — theme primary -->
+      <span
+        class="pointer-events-none absolute -left-0.5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary"
+        style={getAccentUnreadStyle() === 'glowdot' ? 'box-shadow: 0 0 6px 1px hsl(var(--primary) / 0.7)' : ''}
+      ></span>
+    {/if}
+
     {#if swipeAnim === 'select'}
       <!-- Swipe feedback: select/deselect bubble pops in at the left edge
            while the row nudges right, fading out as the row settles -->

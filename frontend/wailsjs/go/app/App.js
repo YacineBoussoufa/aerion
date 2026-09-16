@@ -370,6 +370,10 @@ export function GetAccentBarUnread() {
   return window['go']['app']['App']['GetAccentBarUnread']();
 }
 
+export function GetAccentUnreadStyle() {
+  return window['go']['app']['App']['GetAccentUnreadStyle']();
+}
+
 export function GetAccount(arg1) {
   return window['go']['app']['App']['GetAccount'](arg1);
 }
@@ -1060,6 +1064,10 @@ export function SendReadReceipt(arg1, arg2) {
 
 export function SetAccentBarUnread(arg1) {
   return window['go']['app']['App']['SetAccentBarUnread'](arg1);
+}
+
+export function SetAccentUnreadStyle(arg1) {
+  return window['go']['app']['App']['SetAccentUnreadStyle'](arg1);
 }
 
 export function SetAccountEnabled(arg1, arg2) {
