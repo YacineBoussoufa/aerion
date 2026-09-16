@@ -189,11 +189,19 @@ endif
 
 ## Linux Installation
 
+# hicolor icon sizes shipped on Linux (#395). Keep in sync with
+# build/linux/install.sh ICON_SIZES and .github/workflows/release.yml.
+ICON_SIZES ?= 32 48 64 128 256
+
 # Install Aerion on Linux
 install-linux: build
 	@echo "Installing Aerion to $(DESTDIR)$(PREFIX)..."
 	install -Dm755 build/bin/aerion "$(DESTDIR)$(PREFIX)/bin/aerion"
-	install -Dm644 build/appicon.png "$(DESTDIR)$(PREFIX)/share/icons/hicolor/256x256/apps/io.github.hkdb.Aerion.png"
+	@for sz in $(ICON_SIZES); do \
+		install -Dm644 "build/linux/icons/$${sz}x$${sz}/io.github.hkdb.Aerion.png" \
+			"$(DESTDIR)$(PREFIX)/share/icons/hicolor/$${sz}x$${sz}/apps/io.github.hkdb.Aerion.png"; \
+	done
+	install -Dm644 build/linux/icons/scalable/io.github.hkdb.Aerion.svg "$(DESTDIR)$(PREFIX)/share/icons/hicolor/scalable/apps/io.github.hkdb.Aerion.svg"
 	install -Dm644 build/linux/aerion.desktop "$(DESTDIR)$(PREFIX)/share/applications/io.github.hkdb.Aerion.desktop"
 	@echo "Updating icon cache..."
 	-gtk-update-icon-cache -f -t "$(DESTDIR)$(PREFIX)/share/icons/hicolor" 2>/dev/null || true
@@ -208,7 +216,10 @@ install-linux: build
 uninstall-linux:
 	@echo "Uninstalling Aerion from $(DESTDIR)$(PREFIX)..."
 	rm -f "$(DESTDIR)$(PREFIX)/bin/aerion"
-	rm -f "$(DESTDIR)$(PREFIX)/share/icons/hicolor/256x256/apps/io.github.hkdb.Aerion.png"
+	@for sz in $(ICON_SIZES); do \
+		rm -f "$(DESTDIR)$(PREFIX)/share/icons/hicolor/$${sz}x$${sz}/apps/io.github.hkdb.Aerion.png"; \
+	done
+	rm -f "$(DESTDIR)$(PREFIX)/share/icons/hicolor/scalable/apps/io.github.hkdb.Aerion.svg"
 	rm -f "$(DESTDIR)$(PREFIX)/share/icons/hicolor/256x256/apps/aerion.png"  # Remove old name if it exists
 	rm -f "$(DESTDIR)$(PREFIX)/share/applications/io.github.hkdb.Aerion.desktop"
 	rm -f "$(DESTDIR)$(PREFIX)/share/applications/aerion.desktop"  # Remove old name if it exists

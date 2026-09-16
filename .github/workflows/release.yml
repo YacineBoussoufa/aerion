@@ -102,7 +102,17 @@ jobs:
           cp build/linux/install.sh dist-package/
           cp build/linux/uninstall.sh dist-package/
           cp build/linux/aerion.desktop dist-package/io.github.hkdb.Aerion.desktop
+          # 256 at tarball root keeps AUR aerion-bin working; sized copies +
+          # scalable SVG live under icons/ so install.sh can fill hicolor
+          # (#395). Keep sizes in sync with ICON_SIZES in Makefile/install.sh.
           cp build/linux/aerion.png dist-package/io.github.hkdb.Aerion.png
+          for sz in 32 48 64 128 256; do
+            mkdir -p dist-package/icons/${sz}x${sz}
+            cp build/linux/icons/${sz}x${sz}/io.github.hkdb.Aerion.png \
+              dist-package/icons/${sz}x${sz}/
+          done
+          mkdir -p dist-package/icons/scalable
+          cp build/linux/icons/scalable/io.github.hkdb.Aerion.svg dist-package/icons/scalable/
 
           if [ "${{ matrix.arch }}" = "amd64" ]; then
             tar czf aerion-linux-amd64.tar.gz -C dist-package .
