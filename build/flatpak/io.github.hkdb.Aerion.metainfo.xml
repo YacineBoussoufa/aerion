@@ -316,7 +316,9 @@
           <li>Added default BCC - #341</li>
           <li>Added default reply-to - #404</li>
           <li>Added merge identical messages in thread - #222</li>
-          <li>Fix post delete ghost messages on message list</li>
+          <li>Relabeled spellcheck dictionary English to English (US)</li>
+          <li>Added spellcheck dictionary English (UK) - #417</li>
+          <li>Fixed post delete ghost messages on message list</li>
           <li>New app icon with full hicolor size set and scalable SVG - #395 - #99</li>
           <li>Fixed thread sender and preview in message list - #169</li>
           <li>Fixed comma display name - #398</li>

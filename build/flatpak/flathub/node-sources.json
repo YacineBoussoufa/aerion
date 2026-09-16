@@ -1681,6 +1681,13 @@
     },
     {
         "type": "file",
+        "url": "https://registry.npmjs.org/dictionary-en-gb/-/dictionary-en-gb-3.0.0.tgz",
+        "sha512": "814fddc02f711983e1ff408272618d5cef0ec1280ec9202a7af7125f10030ac8140feb6be8e279daeed7682ecda3b74db2cbdd5127d58e4cdca8bad166ade43c",
+        "dest-filename": "ddc02f711983e1ff408272618d5cef0ec1280ec9202a7af7125f10030ac8140feb6be8e279daeed7682ecda3b74db2cbdd5127d58e4cdca8bad166ade43c",
+        "dest": "flatpak-node/npm-cache/_cacache/content-v2/sha512/81/4f"
+    },
+    {
+        "type": "file",
         "url": "https://registry.npmjs.org/dictionary-fr/-/dictionary-fr-3.0.0.tgz",
         "sha512": "7e10d15f5711c873c0ebd18983c4785e035881242f6cd1e3de4af952abc41b5392e6926a1fa3f719b3bbc294c2c2faf928c434371188b17a6cf4fe4dc9745512",
         "dest-filename": "d15f5711c873c0ebd18983c4785e035881242f6cd1e3de4af952abc41b5392e6926a1fa3f719b3bbc294c2c2faf928c434371188b17a6cf4fe4dc9745512",
@@ -4889,6 +4896,12 @@
         "contents": "432a681cfcc0a4c64f9287fa36b91f16b946fb2b\t{\"key\": \"make-fetch-happen:request-cache:https://registry.npmjs.org/dictionary-en/-/dictionary-en-4.0.0.tgz\",\"integrity\": \"sha512-3NHnE1uq33ZE/CIwaZ6gqxa4BnglHnxeAcTM0GJ7cmtRGcvX9InMK/IqLtYcUMFCUpUNgybH+DzkqdgAo3F1zg==\",\"time\": 0,\"size\": 0,\"metadata\": {\"url\": \"https://registry.npmjs.org/dictionary-en/-/dictionary-en-4.0.0.tgz\",\"reqHeaders\": {},\"resHeaders\": {}}}",
         "dest-filename": "f2e9be4f873104010db932e7fc9c1e90d2bc726113a7cd99badbff3c99a8",
         "dest": "flatpak-node/npm-cache/_cacache/index-v5/d4/5a"
+    },
+    {
+        "type": "inline",
+        "contents": "a8393dccca85b5db5138188d309f98cafe1599ab\t{\"key\": \"make-fetch-happen:request-cache:https://registry.npmjs.org/dictionary-en-gb/-/dictionary-en-gb-3.0.0.tgz\",\"integrity\": \"sha512-gU/dwC9xGYPh/0CCcmGNXO8OwSgOySAqevcSXxADCsgUD+tr6OJ52u7XaC7No7dNssvdUSfVjkzcqLrRZq3kPA==\",\"time\": 0,\"size\": 0,\"metadata\": {\"url\": \"https://registry.npmjs.org/dictionary-en-gb/-/dictionary-en-gb-3.0.0.tgz\",\"reqHeaders\": {},\"resHeaders\": {}}}",
+        "dest-filename": "0bc787f7f18083a3400b3c987b1be0b531502755a41655f2cf5791c22517",
+        "dest": "flatpak-node/npm-cache/_cacache/index-v5/2e/b1"
     },
     {
         "type": "inline",
