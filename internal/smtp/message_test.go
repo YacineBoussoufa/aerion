@@ -26,6 +26,43 @@ func TestAddressString_WithoutName(t *testing.T) {
 	}
 }
 
+func TestAddressString_CommaName(t *testing.T) {
+	// "Last, First" display names must be quoted — unquoted, the comma
+	// splits the header into two addresses and sending fails (#398)
+	addr := Address{Name: "Thomas, Annette", Address: "anna@example.com"}
+	result := addr.String()
+
+	expected := `"Thomas, Annette" <anna@example.com>`
+	if result != expected {
+		t.Errorf("expected %q, got %q", expected, result)
+	}
+}
+
+func TestAddressString_QuoteInName(t *testing.T) {
+	addr := Address{Name: `An "odd" name`, Address: "odd@example.com"}
+	result := addr.String()
+
+	expected := `"An \"odd\" name" <odd@example.com>`
+	if result != expected {
+		t.Errorf("expected %q, got %q", expected, result)
+	}
+}
+
+func TestAddressString_HeaderInjection(t *testing.T) {
+	// A display name carrying CR/LF must never reach the header block raw —
+	// that would let a crafted sender name inject arbitrary headers into a
+	// reply. net/mail forces non-printable characters into an encoded-word.
+	addr := Address{Name: "x\r\nBcc: evil@example.com", Address: "victim@example.com"}
+	result := addr.String()
+
+	if strings.ContainsAny(result, "\r\n") {
+		t.Errorf("serialized address contains raw CR/LF (header injection): %q", result)
+	}
+	if !strings.Contains(result, "victim@example.com") {
+		t.Errorf("expected result to contain the address, got %q", result)
+	}
+}
+
 func TestAddressString_Unicode(t *testing.T) {
 	addr := Address{Name: "\u65e5\u672c\u8a9e", Address: "test@example.com"}
 	result := addr.String()

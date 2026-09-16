@@ -116,14 +116,9 @@ func extractEmailAddress(addr string) string {
 	return addr
 }
 
-// formatAddress formats a name and email into a proper address string
+// formatAddress formats a name and email into a proper address string.
+// Delegates to Address.String() so MDN headers get the same RFC 5322
+// quoting + RFC 2047 encoding as the send path (#398).
 func formatAddress(name, email string) string {
-	if name == "" {
-		return email
-	}
-	// Check if name needs quoting (contains special characters)
-	if strings.ContainsAny(name, `"(),.:;<>@[\]`) {
-		return fmt.Sprintf(`"%s" <%s>`, strings.ReplaceAll(name, `"`, `\"`), email)
-	}
-	return fmt.Sprintf("%s <%s>", name, email)
+	return Address{Name: name, Address: email}.String()
 }

@@ -9,6 +9,7 @@ import (
 	"mime"
 	"mime/multipart"
 	"mime/quotedprintable"
+	"net/mail"
 	"net/textproto"
 	"path/filepath"
 	"strings"
@@ -23,14 +24,16 @@ type Address struct {
 	Address string `json:"address"`
 }
 
-// String returns the RFC 5322 formatted address
+// String returns the RFC 5322 formatted address. Delegates to net/mail so
+// display names with specials (comma, quotes, …) are quoted/escaped and
+// non-printable or non-ASCII names are RFC 2047-encoded — an unquoted
+// "Last, First" name parses as TWO addresses and breaks sending (#398),
+// and a raw CR/LF would be header injection.
 func (a Address) String() string {
 	if a.Name == "" {
 		return a.Address
 	}
-	// Encode the name if it contains non-ASCII characters
-	encodedName := mime.QEncoding.Encode("utf-8", a.Name)
-	return fmt.Sprintf("%s <%s>", encodedName, a.Address)
+	return (&mail.Address{Name: a.Name, Address: a.Address}).String()
 }
 
 // Attachment represents a file attachment
