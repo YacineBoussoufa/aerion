@@ -1128,6 +1128,20 @@
       inlineImageCounter = Math.max(inlineImageCounter, inlineImages.length)
     }
 
+    // Open drafts in the format they were written in (#420): a plain-text
+    // draft saves html_body = '', so seeding the rich editor from it opens a
+    // blank body — and autosave would then wipe the real text_body. The
+    // reverse (rich draft under a plain setting) opens rich so formatting
+    // and inline images survive. Reply/forward keeps following the setting
+    // (#285 behavior). Both editor surfaces stay mounted, so flipping the
+    // flag is safe in either direction.
+    if (draftId && !htmlBody && initialMessage.text_body) {
+      isPlainTextMode = true
+    }
+    if (draftId && htmlBody) {
+      isPlainTextMode = false
+    }
+
     // Set editor content (with restored data URLs for inline images)
     // Strip email-client paragraph styles so TipTap doesn't double-space empty lines
     if (editor && htmlBody) {

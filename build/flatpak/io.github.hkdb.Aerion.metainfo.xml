@@ -309,7 +309,7 @@
   </provides>
 
   <releases>
-    <release version="0.3.4" date="2026-08-28">
+    <release version="0.3.4" date="2026-09-18">
       <description>
         <ul>
           <li>Added default CC</li>
@@ -320,6 +320,7 @@
           <li>New app icon with full hicolor size set and scalable SVG - #395 - #99</li>
           <li>Fixed thread sender and preview in message list - #169</li>
           <li>Fixed comma display name - #398</li>
+          <li>Fixed composer draft format detection - #420</li>
         </ul>
       </description>
     </release>

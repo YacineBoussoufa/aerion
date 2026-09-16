@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-**v0.3.4 - 08-28-2026**
+**v0.3.4 - 09-18-2026**
 ---
 
 - Added default CC
@@ -12,6 +12,7 @@
 - New app icon with full hicolor size set + scalable SVG - [#395](https://github.com/hkdb/aerion/issues/395) (Special thanks to @gianlucamazza) - [#99](https://github.com/hkdb/aerion/issues/99) 
 - Fixed thread sender and preview in message list - [#169](https://github.com/hkdb/aerion/issues/169)
 - Fixed comma display name - [#398](https://github.com/hkdb/aerion/issues/398)
+- Fixed composer draft format detection - [#420](https://github.com/hkdb/aerion/issues/420)
 
 
 **v0.3.3 - 08-06-2026**
