@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"html"
 	"regexp"
+	"sort"
 	"strings"
 	"time"
 
@@ -133,7 +134,7 @@ func (s *Store) ListConversationsUnifiedInbox(offset, limit int, sortOrder, filt
 			a.name as account_name,
 			a.color as account_color,
 			f.id as folder_id,
-			json_group_array(DISTINCT json_object('name', m.from_name, 'email', m.from_email)) as participants_json
+			json_group_array(json_object('name', m.from_name, 'email', m.from_email, 'date', m.date, 'snippet', m.snippet)) as participants_json
 		FROM messages m
 		INNER JOIN folders f ON m.folder_id = f.id AND f.folder_type = 'inbox'
 		INNER JOIN accounts a ON f.account_id = a.id AND a.enabled = 1
@@ -191,7 +192,11 @@ func (s *Store) ListConversationsUnifiedInbox(offset, limit int, sortOrder, filt
 		}
 
 		if participantsJSON.Valid {
-			c.Participants = parseParticipantsJSON(participantsJSON.String)
+			var latestSnippet string
+			c.Participants, latestSnippet = parseParticipantsJSON(participantsJSON.String)
+			if latestSnippet != "" {
+				c.Snippet = latestSnippet
+			}
 		}
 
 		conversations = append(conversations, c)
@@ -1285,12 +1290,13 @@ func (s *Store) ListConversationsByFolder(folderID string, offset, limit int, so
 	_ = s.db.QueryRow("SELECT folder_type FROM folders WHERE id = ?", folderID).Scan(&folderType)
 	useToList := folderType == "sent" || folderType == "drafts"
 
-	// participantsExpr is byte-identical to the historical query for
-	// every folder except sent/drafts. The sent/drafts branch
-	// aggregates per-message to_list JSON arrays into a nested array
-	// that parseAggregatedToListJSON flattens + dedupes in Go (DISTINCT
-	// doesn't work across nested-array values in SQLite).
-	participantsExpr := `json_group_array(DISTINCT json_object('name', from_name, 'email', from_email))`
+	// participantsExpr carries date+snippet per sender so Go can order
+	// participants latest-first and pick the latest message's snippet
+	// (#169). The sent/drafts branch aggregates per-message to_list JSON
+	// arrays into a nested array that parseAggregatedToListJSON flattens
+	// + dedupes in Go (DISTINCT doesn't work across nested-array values
+	// in SQLite).
+	participantsExpr := `json_group_array(json_object('name', from_name, 'email', from_email, 'date', date, 'snippet', snippet))`
 	if useToList {
 		participantsExpr = `json_group_array(json(to_list))`
 	}
@@ -1366,7 +1372,11 @@ func (s *Store) ListConversationsByFolder(folderID string, offset, limit int, so
 				c.Participants = parseAggregatedToListJSON(participantsJSON.String)
 			}
 			if !useToList {
-				c.Participants = parseParticipantsJSON(participantsJSON.String)
+				var latestSnippet string
+				c.Participants, latestSnippet = parseParticipantsJSON(participantsJSON.String)
+				if latestSnippet != "" {
+					c.Snippet = latestSnippet
+				}
 			}
 		}
 
@@ -1376,29 +1386,46 @@ func (s *Store) ListConversationsByFolder(folderID string, offset, limit int, so
 	return conversations, nil
 }
 
-// parseParticipantsJSON parses a JSON array of {name, email} objects from
-// SQLite's json_group_array into a deduplicated Address slice.
-func parseParticipantsJSON(s string) []Address {
+// parseParticipantsJSON parses the per-message sender objects produced by
+// json_group_array(json_object('name',…,'email',…,'date',…,'snippet',…)),
+// orders them latest-first, and dedupes by lowercased email — so
+// Participants[0] is always the LATEST message's sender (#169; SQLite fills
+// aggregates in scan order, which is oldest-first). The second return value
+// is the newest non-empty snippet (falling back to the newest), so the row
+// preview also reflects the latest message; empty when undeterminable.
+func parseParticipantsJSON(s string) ([]Address, string) {
 	if s == "" || s == "[]" {
-		return nil
+		return nil, ""
 	}
 	var raw []struct {
-		Name  string `json:"name"`
-		Email string `json:"email"`
+		Name    string `json:"name"`
+		Email   string `json:"email"`
+		Date    string `json:"date"`
+		Snippet string `json:"snippet"`
 	}
 	if err := json.Unmarshal([]byte(s), &raw); err != nil {
-		return nil
+		return nil, ""
 	}
+	// Dates share one storage format (written by the same driver), so
+	// lexicographic comparison orders them correctly.
+	sort.SliceStable(raw, func(i, j int) bool {
+		return raw[i].Date > raw[j].Date
+	})
 	participants := make([]Address, 0, len(raw))
 	seen := make(map[string]bool, len(raw))
+	latestSnippet := ""
 	for _, r := range raw {
-		if seen[r.Email] {
+		if latestSnippet == "" && r.Snippet != "" {
+			latestSnippet = r.Snippet
+		}
+		key := strings.ToLower(r.Email)
+		if seen[key] {
 			continue
 		}
-		seen[r.Email] = true
+		seen[key] = true
 		participants = append(participants, Address{Name: r.Name, Email: r.Email})
 	}
-	return participants
+	return participants, latestSnippet
 }
 
 // parseAggregatedToListJSON parses the nested array produced by
@@ -1672,13 +1699,17 @@ func (s *Store) GetConversation(threadID, folderID string) (*Conversation, error
 		Str("threadID", threadID).
 		Msg("GetConversation returning")
 
-	// Build participants from already-loaded messages (no extra query needed)
+	// Build participants from already-loaded messages (no extra query needed).
+	// Messages are date-ASC; iterate in reverse so Participants[0] is the
+	// latest sender, matching the list-query ordering (#169).
 	seen := make(map[string]bool)
-	for _, msg := range c.Messages {
-		if seen[msg.FromEmail] {
+	for i := len(c.Messages) - 1; i >= 0; i-- {
+		msg := c.Messages[i]
+		key := strings.ToLower(msg.FromEmail)
+		if seen[key] {
 			continue
 		}
-		seen[msg.FromEmail] = true
+		seen[key] = true
 		c.Participants = append(c.Participants, Address{Name: msg.FromName, Email: msg.FromEmail})
 	}
 
@@ -2266,7 +2297,7 @@ func (s *Store) SearchConversations(folderID, query string, offset, limit int, f
 			MAX(m.date) as latest_date,
 			GROUP_CONCAT(m.id) as message_ids,
 			MAX(CASE WHEN m.smime_encrypted = 1 OR m.pgp_encrypted = 1 THEN 1 ELSE 0 END) as is_encrypted,
-			json_group_array(DISTINCT json_object('name', m.from_name, 'email', m.from_email)) as participants_json
+			json_group_array(json_object('name', m.from_name, 'email', m.from_email, 'date', m.date, 'snippet', m.snippet)) as participants_json
 		FROM messages m
 		JOIN messages_fts fts ON m.rowid = fts.rowid
 		WHERE m.folder_id = ? AND messages_fts MATCH ?
@@ -2323,15 +2354,21 @@ func (s *Store) SearchConversations(folderID, query string, offset, limit int, f
 		c.FolderName = folderName
 		c.FolderType = folderType
 
+		// Resolve participants + latest snippet BEFORE highlighting so the
+		// highlighted snippet reflects the latest message (#169)
+		if participantsJSON.Valid {
+			var latestSnippet string
+			c.Participants, latestSnippet = parseParticipantsJSON(participantsJSON.String)
+			if latestSnippet != "" {
+				c.Snippet = latestSnippet
+			}
+		}
+
 		// Apply highlighting to displayable fields
 		c.HighlightedSubject = highlightMatches(c.Subject, query)
 		c.HighlightedSnippet = highlightMatches(c.Snippet, query)
 		if fromName.Valid {
 			c.HighlightedFromName = highlightMatches(fromName.String, query)
-		}
-
-		if participantsJSON.Valid {
-			c.Participants = parseParticipantsJSON(participantsJSON.String)
 		}
 
 		results = append(results, c)
@@ -2387,7 +2424,7 @@ func (s *Store) SearchConversationsUnifiedInbox(query string, offset, limit int,
 			f.id as folder_id,
 			f.name as folder_name,
 			f.folder_type as folder_type,
-			json_group_array(DISTINCT json_object('name', m.from_name, 'email', m.from_email)) as participants_json
+			json_group_array(json_object('name', m.from_name, 'email', m.from_email, 'date', m.date, 'snippet', m.snippet)) as participants_json
 		FROM messages m
 		JOIN messages_fts fts ON m.rowid = fts.rowid
 		INNER JOIN folders f ON m.folder_id = f.id AND f.folder_type = 'inbox'
@@ -2448,15 +2485,21 @@ func (s *Store) SearchConversationsUnifiedInbox(query string, offset, limit int,
 			c.MessageIDs = strings.Split(messageIDsStr.String, ",")
 		}
 
+		// Resolve participants + latest snippet BEFORE highlighting so the
+		// highlighted snippet reflects the latest message (#169)
+		if participantsJSON.Valid {
+			var latestSnippet string
+			c.Participants, latestSnippet = parseParticipantsJSON(participantsJSON.String)
+			if latestSnippet != "" {
+				c.Snippet = latestSnippet
+			}
+		}
+
 		// Apply highlighting
 		c.HighlightedSubject = highlightMatches(c.Subject, query)
 		c.HighlightedSnippet = highlightMatches(c.Snippet, query)
 		if fromName.Valid {
 			c.HighlightedFromName = highlightMatches(fromName.String, query)
-		}
-
-		if participantsJSON.Valid {
-			c.Participants = parseParticipantsJSON(participantsJSON.String)
 		}
 
 		results = append(results, c)

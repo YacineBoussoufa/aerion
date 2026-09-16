@@ -194,22 +194,21 @@
   // avatar keeps the exact footprint of the colored circle it replaces.
   const AVATAR_PX = { micro: 32, compact: 40, standard: 48, large: 56 } as const
 
-  // Get display name for participants
-  function getParticipantNames(): string {
-    if (!conversation.participants || conversation.participants.length === 0) {
-      return $_('viewer.unknown')
+  // Participants arrive latest-first from the backend (#169): primary is
+  // the latest message's sender, up to 2 more distinct senders render
+  // smaller/dimmed, the rest collapse into +N.
+  const senderDisplay = $derived.by(() => {
+    const participants = conversation.participants
+    if (!participants || participants.length === 0) {
+      return { primary: $_('viewer.unknown'), others: [] as string[], overflow: 0 }
     }
-
-    const names = conversation.participants.map((p) => p.name || p.email.split('@')[0])
-
-    if (names.length === 1) {
-      return names[0]
-    } else if (names.length === 2) {
-      return names.join(', ')
-    } else {
-      return `${names[0]}, ${names[1]} +${names.length - 2}`
+    const names = participants.map((p) => p.name || p.email.split('@')[0])
+    return {
+      primary: names[0],
+      others: names.slice(1, 3),
+      overflow: Math.max(0, names.length - 3),
     }
-  }
+  })
 
   function getInitials(conv: message.Conversation): string {
     if (!conv.participants || conv.participants.length === 0) {
@@ -551,16 +550,21 @@
           ></span>
         {/if}
 
-        <!-- Participant Names (with highlighting if in search mode) -->
-        {#if highlightedFromName}
+        <!-- Participant Names; the highlighted branch only when the search
+             actually matched the sender name, otherwise the normal
+             latest-first display (#169) -->
+        {#if highlightedFromName.includes('<mark')}
           <span class="{densityClasses.senderText[density]} truncate {hasUnread ? 'font-semibold text-foreground' : 'text-foreground'}">
             <!-- eslint-disable-next-line svelte/no-at-html-tags -- highlightMatches only inserts <mark> around already-escaped text -->
             {@html highlightedFromName}
           </span>
         {:else}
-          <span class="{densityClasses.senderText[density]} truncate {hasUnread ? 'font-semibold text-foreground' : 'text-foreground'}">
-            {getParticipantNames()}
+          <span class="{densityClasses.senderText[density]} truncate {hasUnread ? 'font-semibold' : ''} text-foreground">
+            {senderDisplay.primary}{#if senderDisplay.others.length > 0}<span class="{densityClasses.text[density]} text-muted-foreground font-normal">, {senderDisplay.others.join(', ')}</span>{/if}
           </span>
+          {#if senderDisplay.overflow > 0}
+            <span class="{densityClasses.text[density]} text-muted-foreground flex-shrink-0">+{senderDisplay.overflow}</span>
+          {/if}
         {/if}
 
         <!-- Message Count Badge -->

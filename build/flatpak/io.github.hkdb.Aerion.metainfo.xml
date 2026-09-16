@@ -314,6 +314,7 @@
         <ul>
           <li>Fix post delete ghost messages on message list</li>
           <li>New app icon with full hicolor size set and scalable SVG - #395 - #99</li>
+          <li>Fixed thread sender and preview in message list - #169</li>
         </ul>
       </description>
     </release>
