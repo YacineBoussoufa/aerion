@@ -907,7 +907,9 @@
     "flatpakOpenTitle": "Accès aux fichiers limité",
     "flatpakOpenDescription": "L'ouverture directe ne fonctionne pas avec Flatpak. Autorisez l'accès à votre dossier personnel dans le terminal :",
     "flatpakOpenSecurityWarning": "Attention aux implications de sécurité.",
-    "flatpakOpenAlternative": "Sinon, cliquez sur \"Afficher dans le dossier\" pour ouvrir le fichier manuellement."
+    "flatpakOpenAlternative": "Sinon, cliquez sur \"Afficher dans le dossier\" pour ouvrir le fichier manuellement.",
+    "flatpakSaveAllDescription": "L'enregistrement de toutes les pièces jointes à la fois ne fonctionne pas avec Flatpak sans accès au dossier personnel. Autorisez l'accès dans le terminal, puis redémarrez Aerion :",
+    "flatpakSaveAllAlternative": "Sinon, enregistrez les pièces jointes une par une — cela fonctionne sans autorisation supplémentaire."
   },
   "aria": {
     "windowControls": "Contrôles de fenêtre",

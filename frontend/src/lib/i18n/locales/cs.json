@@ -914,7 +914,9 @@
     "flatpakOpenTitle": "Omezený přístup k souborům",
     "flatpakOpenDescription": "Otevření souboru z tohoto toast oznámení ve verzi Flatpak nefunguje správně. Aby tato funkce fungovala správně, udělte aplikaci Aerion přístup k vašemu domovskému adresáři spuštěním následujícího příkazu v terminálu:",
     "flatpakOpenSecurityWarning": "Udělení takového oprávnění má bezpečnostní důsledky. Neudělujte jej, pokud plně nerozumíte tomu, co umožňuje.",
-    "flatpakOpenAlternative": "Případně můžete bez další konfigurace kliknout na „Zobrazit ve složce“, čímž otevřete složku obsahující daný soubor a můžete jej otevřít odtud."
+    "flatpakOpenAlternative": "Případně můžete bez další konfigurace kliknout na „Zobrazit ve složce“, čímž otevřete složku obsahující daný soubor a můžete jej otevřít odtud.",
+    "flatpakSaveAllDescription": "Uložení všech příloh najednou ve verzi Flatpak nefunguje správně bez přístupu k domovskému adresáři. Aby tato funkce fungovala, udělte aplikaci Aerion přístup k vašemu domovskému adresáři spuštěním následujícího příkazu v terminálu a poté aplikaci Aerion restartujte:",
+    "flatpakSaveAllAlternative": "Případně můžete bez další konfigurace ukládat přílohy jednotlivě — uložení jedné přílohy funguje bez dalších oprávnění."
   },
   "aria": {
     "windowControls": "Ovládání okna",

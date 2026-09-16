@@ -916,7 +916,9 @@
     "flatpakOpenTitle": "Begrenset tilgang til filer",
     "flatpakOpenDescription": "Åpning av filer fra dette varselet fungerer ikke skikkelig fra Flatpak. For at dette skal fungere skikkelig, gi Aerion tilgang til hjem-mappen din ved å kjøre følgene i terminalen din:",
     "flatpakOpenSecurityWarning": "Det kan være konsekvenser for din sikkerhet ved å gi en slik tillatelse. Ikke gi slike tillatelser uten å forstå hva den gjør.",
-    "flatpakOpenAlternative": "Alternativt så kan du klikke på «vis i mappe» i stedet for å åpne mappen filen er lagret i og åpne den fra der."
+    "flatpakOpenAlternative": "Alternativt så kan du klikke på «vis i mappe» i stedet for å åpne mappen filen er lagret i og åpne den fra der.",
+    "flatpakSaveAllDescription": "Lagring av alle vedlegg samtidig fungerer ikke skikkelig fra Flatpak uten tilgang til hjem-mappen. For at dette skal fungere, gi Aerion tilgang til hjem-mappen din ved å kjøre følgende i terminalen din, og start deretter Aerion på nytt:",
+    "flatpakSaveAllAlternative": "Alternativt så kan du lagre vedleggene ett og ett — lagring av enkeltvedlegg fungerer uten ekstra tillatelser."
   },
   "aria": {
     "windowControls": "Vindukontroller",

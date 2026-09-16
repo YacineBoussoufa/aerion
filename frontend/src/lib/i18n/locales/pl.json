@@ -916,7 +916,9 @@
     "flatpakOpenTitle": "Ograniczony dostęp do plików",
     "flatpakOpenDescription": "Otwieranie pliku z powiadomienia nie działa prawidłowo w Flatpak. Aby ta funkcja działała prawidłowo, przyznaj Aerionowi dostęp do katalogu domowego, uruchamiając następujące polecenie w terminalu:",
     "flatpakOpenSecurityWarning": "Przyznanie takich uprawnień ma implikacje bezpieczeństwa. Nie przyznawaj uprawnień bez pełnego zrozumienia ich działania.",
-    "flatpakOpenAlternative": "Alternatywnie, bez żadnej dodatkowej konfiguracji, możesz kliknąć \"Pokaż w folderze\", aby pokazać folder, w którym znajduje się plik, abyś mógł go stamtąd otworzyć."
+    "flatpakOpenAlternative": "Alternatywnie, bez żadnej dodatkowej konfiguracji, możesz kliknąć \"Pokaż w folderze\", aby pokazać folder, w którym znajduje się plik, abyś mógł go stamtąd otworzyć.",
+    "flatpakSaveAllDescription": "Zapisywanie wszystkich załączników naraz nie działa prawidłowo w Flatpak bez dostępu do katalogu domowego. Aby ta funkcja działała, przyznaj Aerionowi dostęp do katalogu domowego, uruchamiając następujące polecenie w terminalu, a następnie uruchom Aeriona ponownie:",
+    "flatpakSaveAllAlternative": "Alternatywnie, bez żadnej dodatkowej konfiguracji, możesz zapisywać załączniki pojedynczo — zapisanie pojedynczego załącznika działa bez dodatkowych uprawnień."
   },
   "aria": {
     "windowControls": "Przyciski okna",

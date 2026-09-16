@@ -323,6 +323,7 @@
           <li>Fixed thread sender and preview in message list - #169</li>
           <li>Fixed comma display name - #398</li>
           <li>Fixed composer draft format detection - #420</li>
+          <li>Block save all attachments if flatpak - #384</li>
         </ul>
       </description>
     </release>

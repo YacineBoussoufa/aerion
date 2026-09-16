@@ -336,6 +336,15 @@ func (a *App) SaveAllAttachments(messageID string) (string, error) {
 	}
 	defaultDir := filepath.Join(homeDir, "Downloads")
 
+	// Bulk-saving in a Flatpak sandbox needs writable home access — the
+	// SaveFiles portal's per-file grants are unreliable across backends
+	// (#384: some error, some grant only the first file). Without the
+	// override, guide the user instead of failing or silently dropping files.
+	if platform.IsFlatpak() && !platform.FlatpakHasWritableHome() {
+		wailsRuntime.EventsEmit(a.ctx, "flatpak:filesystem-dialog", "saveAll")
+		return "", nil
+	}
+
 	// In Flatpak, use portal save dialog (Wails GTK dialog doesn't route through portal)
 	if platform.IsFlatpak() {
 		return a.saveAllAttachmentsViaPortal(messageID, attachments, defaultDir)
@@ -593,6 +602,12 @@ func (a *App) SaveAllEncryptedAttachments(messageID string) (string, error) {
 		homeDir = ""
 	}
 	defaultDir := filepath.Join(homeDir, "Downloads")
+
+	// Same home-access gate as SaveAllAttachments (#384)
+	if platform.IsFlatpak() && !platform.FlatpakHasWritableHome() {
+		wailsRuntime.EventsEmit(a.ctx, "flatpak:filesystem-dialog", "saveAll")
+		return "", nil
+	}
 
 	// In Flatpak, use portal save dialog (Wails GTK dialog doesn't route through portal)
 	if platform.IsFlatpak() {

@@ -166,6 +166,7 @@
 
   // Flatpak filesystem permission dialog state
   let showFlatpakFsDialog = $state(false)
+  let flatpakFsDialogContext = $state<'open' | 'saveAll'>('open')
 
   // Handle window close button (title bar X) — hides if background mode, quits if not
   function handleClose() {
@@ -360,8 +361,11 @@
       }
     })
 
-    // Listen for Flatpak filesystem permission dialog event
-    EventsOn('flatpak:filesystem-dialog', () => {
+    // Listen for Flatpak filesystem permission dialog event. Optional payload
+    // picks the wording: 'saveAll' (bulk attachment save, #384) vs the
+    // original toast-open case (no payload).
+    EventsOn('flatpak:filesystem-dialog', (context?: string) => {
+      flatpakFsDialogContext = context === 'saveAll' ? 'saveAll' : 'open'
       showFlatpakFsDialog = true
     })
 
@@ -1772,10 +1776,10 @@
     <AlertDialog.Header>
       <AlertDialog.Title>{$_('attachment.flatpakOpenTitle')}</AlertDialog.Title>
       <AlertDialog.Description>
-        <p class="mb-3">{$_('attachment.flatpakOpenDescription')}</p>
-        <pre class="mb-3 rounded bg-muted p-2 text-sm overflow-x-auto"><code>flatpak override --user --filesystem=home com.aerion.Aerion</code></pre>
+        <p class="mb-3">{flatpakFsDialogContext === 'saveAll' ? $_('attachment.flatpakSaveAllDescription') : $_('attachment.flatpakOpenDescription')}</p>
+        <pre class="mb-3 rounded bg-muted p-2 text-sm overflow-x-auto"><code>flatpak override --user --filesystem=home io.github.hkdb.Aerion</code></pre>
         <p class="mb-3 text-sm text-destructive">{$_('attachment.flatpakOpenSecurityWarning')}</p>
-        <p class="text-sm text-muted-foreground">{$_('attachment.flatpakOpenAlternative')}</p>
+        <p class="text-sm text-muted-foreground">{flatpakFsDialogContext === 'saveAll' ? $_('attachment.flatpakSaveAllAlternative') : $_('attachment.flatpakOpenAlternative')}</p>
       </AlertDialog.Description>
     </AlertDialog.Header>
     <AlertDialog.Footer>

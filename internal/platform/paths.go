@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strings"
 )
 
 const appName = "aerion"
@@ -110,6 +111,41 @@ func getWindowsPaths() (*Paths, error) {
 // IsFlatpak returns true if the application is running inside a Flatpak sandbox.
 func IsFlatpak() bool {
 	return os.Getenv("FLATPAK_ID") != ""
+}
+
+// FlatpakHasWritableHome reports whether the Flatpak sandbox has writable
+// access to the user's home directory (or the whole host), e.g. granted via
+// `flatpak override --user --filesystem=home`. Parsed from the sandbox's
+// /.flatpak-info — the canonical manifest of granted permissions ([Context]
+// section, `filesystems=` list, entries with optional :ro/:rw/:create
+// suffixes). Read-only grants don't count. Always false outside Flatpak
+// (the file doesn't exist).
+func FlatpakHasWritableHome() bool {
+	data, err := os.ReadFile("/.flatpak-info")
+	if err != nil {
+		return false
+	}
+	inContext := false
+	for _, line := range strings.Split(string(data), "\n") {
+		line = strings.TrimSpace(line)
+		if strings.HasPrefix(line, "[") {
+			inContext = line == "[Context]"
+			continue
+		}
+		if !inContext || !strings.HasPrefix(line, "filesystems=") {
+			continue
+		}
+		for _, fs := range strings.Split(strings.TrimPrefix(line, "filesystems="), ";") {
+			base, suffix, _ := strings.Cut(fs, ":")
+			if suffix == "ro" {
+				continue
+			}
+			if base == "home" || base == "host" {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 // EnsureDirectories creates all necessary directories if they don't exist

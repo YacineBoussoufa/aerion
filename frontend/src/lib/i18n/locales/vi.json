@@ -914,7 +914,9 @@
     "flatpakOpenTitle": "Quyền truy cập tệp bị hạn chế",
     "flatpakOpenDescription": "Việc mở tệp từ thông báo này không hoạt động được trên Flatpak. Để tính năng này hoạt động, hãy cấp quyền truy cập vào thư mục home bằng cách chạy lệnh sau trong terminal:",
     "flatpakOpenSecurityWarning": "Khi cấp quyền như vậy sẽ có những rủi ro bảo mật. Đừng cấp quyền này nếu bạn chưa hiểu rõ tác động của nó.",
-    "flatpakOpenAlternative": "Hoặc không cần cấu hình thêm, mà bạn có thể nhấn \"Hiện trong thư mục\" để mở thư mục chứa tệp và mở từ đó."
+    "flatpakOpenAlternative": "Hoặc không cần cấu hình thêm, mà bạn có thể nhấn \"Hiện trong thư mục\" để mở thư mục chứa tệp và mở từ đó.",
+    "flatpakSaveAllDescription": "Việc lưu tất cả tệp đính kèm cùng lúc không hoạt động được trên Flatpak nếu không có quyền truy cập thư mục home. Để tính năng này hoạt động, hãy cấp quyền truy cập bằng cách chạy lệnh sau trong terminal, sau đó khởi động lại Aerion:",
+    "flatpakSaveAllAlternative": "Hoặc không cần cấu hình thêm, mà bạn có thể lưu từng tệp đính kèm một — việc lưu một tệp đính kèm hoạt động mà không cần thêm quyền."
   },
   "aria": {
     "windowControls": "Điều khiển cửa sổ",

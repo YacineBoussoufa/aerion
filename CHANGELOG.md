@@ -15,6 +15,7 @@
 - Fixed thread sender and preview in message list - [#169](https://github.com/hkdb/aerion/issues/169)
 - Fixed comma display name - [#398](https://github.com/hkdb/aerion/issues/398)
 - Fixed composer draft format detection - [#420](https://github.com/hkdb/aerion/issues/420)
+- Block save all attachments if flatpak - [#384](https://github.com/hkdb/aerion/issues/384)
 
 
 **v0.3.3 - 08-06-2026**

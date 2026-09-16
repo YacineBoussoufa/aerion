@@ -914,7 +914,9 @@
     "flatpakOpenTitle": "Eingeschränkter Dateizugriff",
     "flatpakOpenDescription": "Das Öffnen einer Datei aus dieser Benachrichtigung funktioniert in Flatpak nicht ordnungsgemäß. Damit diese Funktion ordnungsgemäß funktioniert, gewähre Aerion Zugriff auf dein Home-Verzeichnis, indem du Folgendes in deinem Terminal ausführst:",
     "flatpakOpenSecurityWarning": "Das Erteilen einer solchen Berechtigung hat Sicherheitsimplikationen. Erteile diese Berechtigung nicht, ohne vollständig zu verstehen, was sie bewirkt.",
-    "flatpakOpenAlternative": "Alternativ kannst du ohne weitere Konfigurationen auf \"Im Ordner anzeigen\" klicken, um den Ordner zu öffnen, in dem sich die Datei befindet, und sie von dort aus öffnen."
+    "flatpakOpenAlternative": "Alternativ kannst du ohne weitere Konfigurationen auf \"Im Ordner anzeigen\" klicken, um den Ordner zu öffnen, in dem sich die Datei befindet, und sie von dort aus öffnen.",
+    "flatpakSaveAllDescription": "Das Speichern aller Anhänge auf einmal funktioniert in Flatpak ohne Zugriff auf das Home-Verzeichnis nicht ordnungsgemäß. Damit diese Funktion funktioniert, gewähre Aerion Zugriff auf dein Home-Verzeichnis, indem du Folgendes in deinem Terminal ausführst, und starte Aerion anschließend neu:",
+    "flatpakSaveAllAlternative": "Alternativ kannst du ohne weitere Konfigurationen Anhänge einzeln speichern — das Speichern eines einzelnen Anhangs funktioniert ohne zusätzliche Berechtigungen."
   },
   "aria": {
     "windowControls": "Fenstersteuerung",
