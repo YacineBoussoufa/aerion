@@ -482,6 +482,14 @@ export function GetDarkMailContent() {
   return window['go']['app']['App']['GetDarkMailContent']();
 }
 
+export function GetDefaultBcc(arg1) {
+  return window['go']['app']['App']['GetDefaultBcc'](arg1);
+}
+
+export function GetDefaultBccEnabled(arg1) {
+  return window['go']['app']['App']['GetDefaultBccEnabled'](arg1);
+}
+
 export function GetDraft(arg1) {
   return window['go']['app']['App']['GetDraft'](arg1);
 }
@@ -1092,6 +1100,14 @@ export function SetDarkComposerBody(arg1) {
 
 export function SetDarkMailContent(arg1) {
   return window['go']['app']['App']['SetDarkMailContent'](arg1);
+}
+
+export function SetDefaultBcc(arg1, arg2) {
+  return window['go']['app']['App']['SetDefaultBcc'](arg1, arg2);
+}
+
+export function SetDefaultBccEnabled(arg1, arg2) {
+  return window['go']['app']['App']['SetDefaultBccEnabled'](arg1, arg2);
 }
 
 export function SetDefaultIdentity(arg1, arg2) {

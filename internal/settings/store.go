@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/hkdb/aerion/internal/database"
 	"github.com/hkdb/aerion/internal/logging"
@@ -207,6 +208,50 @@ func (s *Store) SetExtensionEnabled(name string, enabled bool) error {
 		v = "true"
 	}
 	return s.Set("extension_"+name+"_enabled", v)
+}
+
+// GetDefaultBccEnabled returns whether the per-account default BCC is
+// enabled. Keys follow the dynamic default_bcc_enabled_<accountID> format;
+// not-yet-set accounts default to disabled.
+func (s *Store) GetDefaultBccEnabled(accountID string) (bool, error) {
+	value, err := s.Get("default_bcc_enabled_" + accountID)
+	if err != nil {
+		return false, err
+	}
+	return value == "true", nil
+}
+
+// SetDefaultBccEnabled writes the per-account default BCC toggle. The saved
+// address value is kept when disabling so re-enabling restores it.
+func (s *Store) SetDefaultBccEnabled(accountID string, enabled bool) error {
+	v := "false"
+	if enabled {
+		v = "true"
+	}
+	return s.Set("default_bcc_enabled_"+accountID, v)
+}
+
+// GetDefaultBcc returns the account's default BCC address list (comma/
+// semicolon-separated, as entered) — or "" when the account's toggle is off,
+// so callers (the composer) need no separate enabled check (#341).
+func (s *Store) GetDefaultBcc(accountID string) (string, error) {
+	enabled, err := s.GetDefaultBccEnabled(accountID)
+	if err != nil {
+		return "", err
+	}
+	if !enabled {
+		return "", nil
+	}
+	value, err := s.Get("default_bcc_" + accountID)
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSpace(value), nil
+}
+
+// SetDefaultBcc stores the account's default BCC address list.
+func (s *Store) SetDefaultBcc(accountID, value string) error {
+	return s.Set("default_bcc_"+accountID, strings.TrimSpace(value))
 }
 
 // GetReadReceiptResponsePolicy returns the current read receipt response policy

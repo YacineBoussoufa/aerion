@@ -365,7 +365,9 @@
     "composerFormat": "Formato messaggio predefinito",
     "composerFormatRich": "Testo formattato Rich",
     "composerFormatPlain": "Testo semplice",
-    "composerFormatDescription": "I nuovi messaggi utilizzeranno questo formato per impostazione predefinita. Puoi comunque cambiare il formato per ogni messaggio."
+    "composerFormatDescription": "I nuovi messaggi utilizzeranno questo formato per impostazione predefinita. Puoi comunque cambiare il formato per ogni messaggio.",
+    "defaultBcc": "Ccn predefinito",
+    "defaultBccHelp": "Aggiunto automaticamente al campo Ccn quando componi da un account abilitato. Separa più indirizzi con virgole. Puoi comunque rimuoverli per ogni messaggio."
   },
   "settingsGeneral": {
     "display": "Schermo",

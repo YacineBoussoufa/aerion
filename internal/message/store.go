@@ -1694,6 +1694,43 @@ func (s *Store) GetConversation(threadID, folderID string) (*Conversation, error
 		c.Messages = append(c.Messages, m)
 	}
 
+	// Dedupe copies of the same email (#222): the query spans current
+	// folder + Sent + Drafts, so a self-BCC'd send appears as both the
+	// Sent copy and the delivered copy. Collapse rows sharing a non-empty
+	// Message-ID, preferring current folder > sent > drafts so actions
+	// operate on the copy in the folder being viewed. Stable, keeps
+	// date-ASC order.
+	msgPriority := func(m *Message) int {
+		if m.FolderID == folderID {
+			return 0
+		}
+		if m.IsDraft {
+			return 2
+		}
+		return 1
+	}
+	byMsgID := make(map[string]int) // normalized Message-ID -> index in deduped
+	deduped := c.Messages[:0]
+	for _, m := range c.Messages {
+		id := normalizeMessageID(m.MessageID)
+		if id == "" {
+			deduped = append(deduped, m)
+			continue
+		}
+		existing, ok := byMsgID[id]
+		if !ok {
+			byMsgID[id] = len(deduped)
+			deduped = append(deduped, m)
+			continue
+		}
+		if msgPriority(m) < msgPriority(deduped[existing]) {
+			deduped[existing] = m
+		}
+	}
+	c.Messages = deduped
+	// The summary query's COUNT(*) counts duplicate copies too
+	c.MessageCount = len(c.Messages)
+
 	s.log.Debug().
 		Int("messageCount", len(c.Messages)).
 		Str("threadID", threadID).

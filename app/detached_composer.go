@@ -542,6 +542,12 @@ func (c *ComposerApp) GetDarkComposerBody() (bool, error) {
 	return c.settingsStore.GetDarkComposerBody()
 }
 
+// GetDefaultBcc returns the account's default BCC list ("" when disabled),
+// so a detached composer prefills the same way as the in-window one (#341).
+func (c *ComposerApp) GetDefaultBcc(accountID string) (string, error) {
+	return c.settingsStore.GetDefaultBcc(accountID)
+}
+
 // GetSystemTheme returns the current system theme preference detected via
 // the XDG Settings Portal on Linux. Returns "light", "dark", or "" if not available.
 func (c *ComposerApp) GetSystemTheme() string {

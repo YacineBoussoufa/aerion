@@ -365,7 +365,9 @@
     "composerFormat": "Standard-Nachrichtenformat",
     "composerFormatRich": "Formatierter Text",
     "composerFormatPlain": "Nur-Text",
-    "composerFormatDescription": "Neue Nachrichten verwenden dieses Format standardmäßig. Du kannst es weiterhin pro Nachricht ändern."
+    "composerFormatDescription": "Neue Nachrichten verwenden dieses Format standardmäßig. Du kannst es weiterhin pro Nachricht ändern.",
+    "defaultBcc": "Standard-Bcc",
+    "defaultBccHelp": "Wird beim Verfassen aus einem aktivierten Konto automatisch ins Bcc-Feld eingetragen. Mehrere Adressen mit Kommas trennen. Du kannst sie weiterhin pro Nachricht entfernen."
   },
   "settingsGeneral": {
     "display": "Anzeige",

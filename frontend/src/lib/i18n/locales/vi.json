@@ -365,7 +365,9 @@
     "composerFormat": "Định dạng thư mặc định",
     "composerFormatRich": "Văn bản có định dạng",
     "composerFormatPlain": "Văn bản thuần",
-    "composerFormatDescription": "Thư mới sẽ dùng định dạng này theo mặc định. Bạn vẫn có thể thay đổi từng thư."
+    "composerFormatDescription": "Thư mới sẽ dùng định dạng này theo mặc định. Bạn vẫn có thể thay đổi từng thư.",
+    "defaultBcc": "Bcc mặc định",
+    "defaultBccHelp": "Tự động thêm vào trường Bcc khi soạn thư từ tài khoản đã bật. Phân tách nhiều địa chỉ bằng dấu phẩy. Bạn vẫn có thể xóa ở từng thư."
   },
   "settingsGeneral": {
     "display": "Hiển thị",

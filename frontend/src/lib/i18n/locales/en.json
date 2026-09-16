@@ -365,7 +365,9 @@
     "composerFormat": "Default message format",
     "composerFormatRich": "Rich text",
     "composerFormatPlain": "Plain text",
-    "composerFormatDescription": "New messages will use this format by default. You can still switch per message."
+    "composerFormatDescription": "New messages will use this format by default. You can still switch per message.",
+    "defaultBcc": "Default BCC",
+    "defaultBccHelp": "Automatically added to the BCC field when composing from an enabled account. Separate multiple addresses with commas. You can still remove them per message."
   },
   "settingsGeneral": {
     "display": "Display",

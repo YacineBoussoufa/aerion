@@ -356,6 +356,8 @@
     "composerFormatRich": "Texte enrichi",
     "composerFormatPlain": "Texte brut",
     "composerFormatDescription": "Les nouveaux messages utiliseront ce format par défaut. Vous pouvez toujours changer par message.",
+    "defaultBcc": "Cci par défaut",
+    "defaultBccHelp": "Ajouté automatiquement au champ Cci lors de la rédaction depuis un compte activé. Séparez plusieurs adresses par des virgules. Vous pouvez toujours les retirer par message.",
     "extensions": "Extensions",
     "extensionsCoreHeading": "Extensions principales",
     "extensionsCoreDescription": "Extensions intégrées que vous pouvez activer ou désactiver.",

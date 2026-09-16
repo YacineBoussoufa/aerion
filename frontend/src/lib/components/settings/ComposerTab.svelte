@@ -1,8 +1,15 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
   import Icon from '@iconify/svelte'
   import * as Select from '$lib/components/ui/select'
   import { Label } from '$lib/components/ui/label'
   import Switch from '$lib/components/ui/switch/Switch.svelte'
+  import RecipientInput from '$lib/components/composer/RecipientInput.svelte'
+  import { accountStore } from '$lib/stores/accounts.svelte'
+  // @ts-ignore - Wails generated imports
+  import { smtp } from '../../../../wailsjs/go/models'
+  // @ts-ignore - wailsjs path
+  import { GetDefaultBcc, GetDefaultBccEnabled, SetDefaultBcc, SetDefaultBccEnabled } from '../../../../wailsjs/go/app/App.js'
   import { _ } from '$lib/i18n'
   import { supportedLocales } from '$lib/i18n'
   import { SPELLCHECK_DICTS } from '$lib/spellcheck/locales'
@@ -114,6 +121,65 @@
     spellcheckLanguages = next
     onSpellcheckLanguagesChange?.(next)
   }
+
+  // Per-account default BCC (#341). Values save directly (no dialog-level
+  // Save plumbing); a disabled account keeps its saved value for re-enable.
+  // Fields reuse the composer's RecipientInput so addresses become chips
+  // with the same autocomplete/paste behavior; stored as a comma-joined
+  // string in settings.
+  const bccAccounts = $derived(accountStore.accounts.filter(acc => !acc.account.sharedMailboxParentId))
+  let bccEnabled = $state<Record<string, boolean>>({})
+  let bccAddresses = $state<Record<string, smtp.Address[]>>({})
+  const bccLastSaved: Record<string, string> = {}
+
+  function parseBccList(raw: string): smtp.Address[] {
+    return raw
+      .split(/[,;]/)
+      .map(s => s.trim())
+      .filter(Boolean)
+      .map(addr => new smtp.Address({ name: '', address: addr }))
+  }
+
+  onMount(async () => {
+    for (const acc of accountStore.accounts) {
+      const id = acc.account.id
+      try {
+        bccEnabled[id] = await GetDefaultBccEnabled(id)
+        const raw = await GetDefaultBcc(id)
+        bccLastSaved[id] = raw
+        bccAddresses[id] = parseBccList(raw)
+      } catch (err) {
+        console.error('Failed to load default BCC settings:', err)
+      }
+    }
+  })
+
+  async function handleBccToggle(accountId: string, on: boolean) {
+    bccEnabled[accountId] = on
+    try {
+      await SetDefaultBccEnabled(accountId, on)
+      if (on) {
+        const raw = await GetDefaultBcc(accountId)
+        bccLastSaved[accountId] = raw
+        bccAddresses[accountId] = parseBccList(raw)
+      }
+    } catch (err) {
+      console.error('Failed to save default BCC toggle:', err)
+    }
+  }
+
+  // Persist chip changes as they happen (RecipientInput mutates the bound
+  // array on add/remove; no blur event to hook)
+  $effect(() => {
+    for (const [id, addrs] of Object.entries(bccAddresses)) {
+      const serialized = addrs.map(a => a.address).filter(Boolean).join(', ')
+      if (serialized === bccLastSaved[id]) continue
+      bccLastSaved[id] = serialized
+      SetDefaultBcc(id, serialized).catch((err: unknown) => {
+        console.error('Failed to save default BCC:', err)
+      })
+    }
+  })
 </script>
 
 <div class="space-y-6 p-1">
@@ -246,5 +312,41 @@
       removeLabel={$_('spellcheck.removeWord')}
       onRemove={removeCustomWord}
     />
+  </div>
+
+  <!-- Divider -->
+  <div class="border-t border-border"></div>
+
+  <!-- Default BCC Section (#341) -->
+  <div class="space-y-4">
+    <h3 class="text-sm font-medium flex items-center gap-2">
+      <Icon icon="mdi:email-plus-outline" class="w-4 h-4" />
+      {$_('settings.defaultBcc')}
+    </h3>
+
+    <div class="space-y-1 max-h-60 overflow-y-auto rounded-md border border-border p-2">
+      {#each bccAccounts as acc (acc.account.id)}
+        <div class="px-1 py-1 space-y-2">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-sm truncate">{acc.account.name} — {acc.account.email}</span>
+            <Switch
+              id={`default-bcc-${acc.account.id}`}
+              checked={bccEnabled[acc.account.id] ?? false}
+              onCheckedChange={(v) => handleBccToggle(acc.account.id, v)}
+            />
+          </div>
+          {#if bccEnabled[acc.account.id]}
+            <RecipientInput
+              bind:recipients={
+                () => bccAddresses[acc.account.id] ?? [],
+                (v) => { bccAddresses[acc.account.id] = v }
+              }
+              placeholder="crm@example.com"
+            />
+          {/if}
+        </div>
+      {/each}
+    </div>
+    <p class="text-xs text-muted-foreground">{$_('settings.defaultBccHelp')}</p>
   </div>
 </div>

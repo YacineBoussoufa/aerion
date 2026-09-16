@@ -365,7 +365,9 @@
     "composerFormat": "Standard meldingsformat",
     "composerFormatRich": "Rik tekst",
     "composerFormatPlain": "Standardtekst",
-    "composerFormatDescription": "Nye meldinger vil bruke det angitte formatet som standard. Du kan fortsatt veksle mellom dem når du skriver nye meldinger."
+    "composerFormatDescription": "Nye meldinger vil bruke det angitte formatet som standard. Du kan fortsatt veksle mellom dem når du skriver nye meldinger.",
+    "defaultBcc": "Standard blindkopi",
+    "defaultBccHelp": "Legges automatisk til i blindkopifeltet når du skriver meldinger fra en aktivert konto. Skill flere adresser med komma. Du kan fortsatt fjerne dem per melding."
   },
   "settingsGeneral": {
     "display": "Visning",

@@ -365,7 +365,9 @@
     "composerFormat": "預設撰寫格式",
     "composerFormatRich": "富文字",
     "composerFormatPlain": "純文字",
-    "composerFormatDescription": "新郵件將預設使用此格式。您仍可在撰寫時切換。"
+    "composerFormatDescription": "新郵件將預設使用此格式。您仍可在撰寫時切換。",
+    "defaultBcc": "預設密件副本",
+    "defaultBccHelp": "從已啟用的帳號撰寫郵件時自動加入密件副本欄位。多個地址請以逗號分隔。您仍可在每封郵件中移除。"
   },
   "settingsGeneral": {
     "display": "顯示",

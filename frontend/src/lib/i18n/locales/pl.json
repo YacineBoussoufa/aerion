@@ -365,7 +365,9 @@
     "composerFormat": "Domyślny format wiadomości",
     "composerFormatRich": "Tekst sformatowany",
     "composerFormatPlain": "Zwykły tekst",
-    "composerFormatDescription": "Nowe wiadomości będą domyślnie używać tego formatu. Możesz zmienić go dla każdej wiadomości."
+    "composerFormatDescription": "Nowe wiadomości będą domyślnie używać tego formatu. Możesz zmienić go dla każdej wiadomości.",
+    "defaultBcc": "Domyślne UDW",
+    "defaultBccHelp": "Automatycznie dodawane do pola UDW podczas tworzenia wiadomości z włączonego konta. Wiele adresów oddziel przecinkami. Nadal możesz je usunąć dla każdej wiadomości."
   },
   "settingsGeneral": {
     "display": "Wyświetlanie",

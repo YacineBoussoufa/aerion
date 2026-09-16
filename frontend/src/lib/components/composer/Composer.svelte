@@ -790,6 +790,31 @@
       lastContent = getContentHash()
     }
 
+    // Prefill the account's default BCC (#341) — new/reply/forward only;
+    // a loaded draft's saved recipients are the truth
+    if (!draftId) {
+      try {
+        const defaultBcc = await api.getDefaultBcc(activeAccountId)
+        const existing = new Set(
+          [...toRecipients, ...ccRecipients, ...bccRecipients]
+            .map(r => (r.address || (r as any).email || '').toLowerCase())
+        )
+        const added = defaultBcc
+          .split(/[,;]/)
+          .map(s => s.trim())
+          .filter(addr => addr && !existing.has(addr.toLowerCase()))
+          .map(addr => new smtp.Address({ name: '', address: addr }))
+        if (added.length > 0) {
+          bccRecipients = [...bccRecipients, ...added]
+          showBcc = true
+          // The prefill isn't a user edit — don't let it trigger an autosave
+          lastContent = getContentHash()
+        }
+      } catch (err) {
+        console.error('Failed to load default BCC:', err)
+      }
+    }
+
     // Append signature for the selected identity (after editor is ready)
     // Only if signature doesn't already exist in content (e.g., from loaded draft)
     // Then focus the To field once everything is initialized

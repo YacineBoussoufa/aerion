@@ -365,7 +365,9 @@
     "composerFormat": "Výchozí formát zprávy",
     "composerFormatRich": "Formátovaný text",
     "composerFormatPlain": "Prostý text",
-    "composerFormatDescription": "Nové zprávy budou ve výchozím nastavení používat tento formát. Stále jej však lze změnit pro každou zprávu zvlášť."
+    "composerFormatDescription": "Nové zprávy budou ve výchozím nastavení používat tento formát. Stále jej však lze změnit pro každou zprávu zvlášť.",
+    "defaultBcc": "Výchozí skrytá kopie",
+    "defaultBccHelp": "Automaticky se přidá do pole skryté kopie při psaní zprávy z povoleného účtu. Více adres oddělte čárkami. Lze je však pro každou zprávu zvlášť odebrat."
   },
   "settingsGeneral": {
     "display": "Zobrazení",

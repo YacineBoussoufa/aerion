@@ -26,6 +26,9 @@ export interface ComposerApi {
   /** Get identities for an account */
   getIdentities: (accountId: string) => Promise<account.Identity[]>
 
+  /** Get the account's default BCC list ("" when disabled) */
+  getDefaultBcc: (accountId: string) => Promise<string>
+
   /** Save a draft (creates new or updates existing if draftId provided) */
   saveDraft: (accountId: string, message: smtp.ComposeMessage, draftId: string) => Promise<{ id: string; syncStatus: string }>
 
@@ -156,6 +159,11 @@ export function createMainWindowApi(): ComposerApi {
     getAccount: async (accountId: string) => {
       const { GetAccount } = await import('../../wailsjs/go/app/App.js')
       return GetAccount(accountId)
+    },
+
+    getDefaultBcc: async (accountId: string) => {
+      const { GetDefaultBcc } = await import('../../wailsjs/go/app/App.js')
+      return GetDefaultBcc(accountId)
     },
 
     hasSMIMECertificate: async (accountId: string) => {
@@ -305,6 +313,11 @@ export function createComposerWindowApi(_accountId: string): ComposerApi {
     getAccount: async (accountId: string) => {
       const { GetAccount } = await import('../../wailsjs/go/app/ComposerApp.js')
       return GetAccount(accountId)
+    },
+
+    getDefaultBcc: async (accountId: string) => {
+      const { GetDefaultBcc } = await import('../../wailsjs/go/app/ComposerApp.js')
+      return GetDefaultBcc(accountId)
     },
 
     hasSMIMECertificate: async (accountId: string) => {
